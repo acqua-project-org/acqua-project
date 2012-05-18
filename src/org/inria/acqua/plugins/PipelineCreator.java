@@ -28,6 +28,9 @@ import org.inria.acqua.plugins.ifestimator.IFEstimator;
 import org.inria.acqua.plugins.ifestimator.IFEstimatorToCurveElement;
 
 
+/** 
+ * Creator of pipelines. 
+ * Edit this class if you want acqua to support more Pipeline configurations. */
 public class PipelineCreator {
     private Pipeline pipeline;
     private HistoryData historyDataValue = null;

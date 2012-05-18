@@ -80,9 +80,12 @@ public class Main{
 
     public static void main(String args[]) throws Exception{
 
+    	// We tell the command-line parser what to expect. 
         CmdLineParser parser = new CmdLineParser();
+        CmdLineParser.Option pconfig = parser.addStringOption('f', "config-file");
+        
         CmdLineParser.Option pdebug = parser.addIntegerOption('d', "debug");
-        CmdLineParser.Option plogfile = parser.addIntegerOption('l', "log-file");
+        CmdLineParser.Option plogfile = parser.addStringOption('l', "log-file");
 
         CmdLineParser.Option pgraphical = parser.addBooleanOption('g', "graphical");
         CmdLineParser.Option pmute = parser.addBooleanOption('m', "mute");
@@ -90,7 +93,6 @@ public class Main{
         CmdLineParser.Option pinverse = parser.addBooleanOption('i', "inverse-ife");
         CmdLineParser.Option ppinger = parser.addBooleanOption('p', "pinger-mode");
         CmdLineParser.Option prealtime = parser.addBooleanOption('r', "real-time");
-
 
         try {
             parser.parse(args);
@@ -121,6 +123,8 @@ public class Main{
 				(Integer)parser.getOptionValue(pdebug, new Integer(3)), 
 				(String)parser.getOptionValue(plogfile, null));
 		
+		String conffile = (String)parser.getOptionValue(pconfig);
+		
 //        try{
 //            logger.info("Writing starting date...");
 //            Misc.deleteFile("universal_start_time.txt");
@@ -131,34 +135,34 @@ public class Main{
 //        }
         
 	// Parsing the arguments. 
-        if ((Boolean)parser.getOptionValue(pgraphical)){
+        if ((Boolean)parser.getOptionValue(pgraphical, false)){
             /* Run with graphical mode. */
             logger.info("Running graphical mode...");
             ConfigurationWindow.execute(null);
             return;
-        }else if ((Boolean)parser.getOptionValue(pmute)){
+        }else if ((Boolean)parser.getOptionValue(pmute, false)){
             /* Case when we let the tool running, only debugging. */
             logger.info("Running mute mode (only generating a pings' file)...");
-            ConfigParser cp = new ConfigParser(ConfigParser.DEFAULT_CONFIG_FILE_NAME);
+            ConfigParser cp = new ConfigParser(conffile);
             PipelineCreator pc = PipelineCreator.getMuteRunningPipeline(cp);
             ExternalModule ai = new ExternalModule(pc, cp, null, cp.getIFEExecutionPeriod());
             ai.runLoop();
             return;
-        }else if ((Boolean)parser.getOptionValue(pmutefile)){
+        }else if ((Boolean)parser.getOptionValue(pmutefile, false)){
             /* Case when we use as input an already existing file (captured before). */
             logger.info("Running mute mode with dump reading...");
             String filename = args[1];
-            ConfigParser cp = new ConfigParser(ConfigParser.EXPERIMENTS_CONFIG_FILE_NAME);
+            ConfigParser cp = new ConfigParser(conffile);
             PipelineCreator pc = PipelineCreator.getPipelineProcessFileComplete(cp, filename);
             ExternalModule ai = new ExternalModule(pc, cp, null, cp.getIFEExecutionPeriod());
             ai.runLoop();
             return;
-        }else if ((Boolean)parser.getOptionValue(pinverse)){
+        }else if ((Boolean)parser.getOptionValue(pinverse, false)){
             String monitp = args[2];
             logger.info("Using as monitored point '"+monitp+"'.");
             /* Case when we analyze the samples obtained from other points with inverse IFE. */
-            System.out.println("Running inverse mode...");
-            ConfigParser cp = new ConfigParser(ConfigParser.EXPERIMENTS_CONFIG_FILE_NAME);
+            logger.info("Running inverse mode...");
+            ConfigParser cp = new ConfigParser(conffile);
             PipelineCreator pc = PipelineCreator.getPipelineProcessInvertedFiles(
                     cp, args[1], /* D:\\PFE\\remote\\experimental\\measurements-stageII\\inverse */
                     new Landmark(MiscIP.solveName(monitp))); /* "213.186.117.56" */
@@ -166,7 +170,7 @@ public class Main{
             ai.runLoop();
             return;
 
-        }else if ((Boolean)parser.getOptionValue(ppinger)){
+        }else if ((Boolean)parser.getOptionValue(ppinger, false)){
             /* Case when we analyze the samples obtained from other points with inverse IFE. */
             logger.info("Running in Planetlab Pinger mode for Inverse IFE...");
             //ConfigParser cp = new ConfigParser(ConfigParser.EXPERIMENTS_CONFIG_FILE_NAME);
@@ -174,7 +178,7 @@ public class Main{
             ppm.start();
 
             return;
-        }else if ((Boolean)parser.getOptionValue(prealtime)){
+        }else if ((Boolean)parser.getOptionValue(prealtime, false)){
             /* Case when we analyze on real time the samples obtained from other points with inverse IFE. */
 
             /* java -jar IFE.jar -j moon 14/08/2011_07:47:32.484_GMT_+0200 */
@@ -186,7 +190,7 @@ public class Main{
 
             logger.info("Using as monitored point '" + monitp + "'.");
             
-            ConfigParser cp = new ConfigParser(ConfigParser.EXPERIMENTS_CONFIG_FILE_NAME);
+            ConfigParser cp = new ConfigParser(conffile);
 
             PipelineCreator pc = PipelineCreator.getInverseOnTheFlyProcessingPipeline(
                     cp, 

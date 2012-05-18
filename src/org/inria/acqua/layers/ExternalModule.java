@@ -19,10 +19,9 @@ import org.inria.acqua.realtimer.RealtimeTask;
 
 
 /**
- * This class is one of the most important ones.
- * It connects all the components and uses them to make the system work.
- * It manages data flowing from the tool to the curves, to the disk, etc. 
- */
+ * This class connects all the components of the system (including the pipeline)
+ * and uses them to make the system work, providing the timing.
+ * It manages all data flowing through the pipeline. */
 public class ExternalModule implements Pipelineable, RealtimeNotifiable{
 	private static Logger logger = Logger.getLogger(ExternalModule.class.getName()); 
     private ArrayList<ChannelController> channelControllers =

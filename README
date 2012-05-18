@@ -1,8 +1,14 @@
+COMPILE
+
+$ ant dist 
+
+USAGE EXAMPLES
+
 -i E:\all peeramidion.irisa.fr         # to analyze from inverse IFE
--mf E:\all\peeramidion.irisa.fr-outputbak.txt-cut.txt
--mf D:\PFE\remote\code\gui_experiments\inverse-august\last-pa\lastpa\last-pa-dist\output.txt
--mf D:\PFE\remote\code\gui_experiments\inverse-august\output-erriapo\output.txt
--p             # to run in Planetlab as pinger
+-x E:\all\peeramidion.irisa.fr-outputbak.txt-cut.txt
+-x D:\PFE\remote\code\gui_experiments\inverse-august\last-pa\lastpa\last-pa-dist\output.txt
+-x D:\PFE\remote\code\gui_experiments\inverse-august\output-erriapo\output.txt
+-p             # to run in a Planetlab node as pinger
 
 -j sandun
 -j papi 17/08/2011_16:47:00.000_GMT_+0000     (don't forget to modify planetlabanalyzer_config.txt) 
