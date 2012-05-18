@@ -1,6 +1,8 @@
 package org.inria.acqua.main;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
 import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -93,6 +95,7 @@ public class Main{
         CmdLineParser.Option pinverse = parser.addBooleanOption('i', "inverse-ife");
         CmdLineParser.Option ppinger = parser.addBooleanOption('p', "pinger-mode");
         CmdLineParser.Option prealtime = parser.addBooleanOption('r', "real-time");
+        CmdLineParser.Option pgren = parser.addBooleanOption('a', "grenouille-mode");
 
         try {
             parser.parse(args);
@@ -177,6 +180,14 @@ public class Main{
             PlanetlabPingerModule ppm = new PlanetlabPingerModule();
             ppm.start();
 
+            return;
+        }else if ((Boolean)parser.getOptionValue(pgren, false)){
+            /* Case when we read from stdin the pings, and we put in stdout the anomalies. */
+            logger.info("Running in Grenouille mode...");
+            ConfigParser cp = new ConfigParser(conffile);
+            PipelineCreator pc = PipelineCreator.getPipelineGrenouille(cp);
+            ExternalModule ai = new ExternalModule(pc, cp, null, cp.getIFEExecutionPeriod());
+            ai.runLoop();
             return;
         }else if ((Boolean)parser.getOptionValue(prealtime, false)){
             /* Case when we analyze on real time the samples obtained from other points with inverse IFE. */

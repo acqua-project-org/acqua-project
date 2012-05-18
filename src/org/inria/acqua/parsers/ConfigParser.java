@@ -44,7 +44,11 @@ public class ConfigParser extends Parser{
     private static String xp_number_of_loops = xp_base + "number_of_loops/@value";
 
     public ConfigParser(String file) throws Exception{
-        xmlParser = new XMLParser(file);
+    	try{
+	        xmlParser = new XMLParser(file);
+    	}catch(Exception e){
+    		throw new Exception("Error parsing the configuration file '" + file + "'. " + e.getMessage());
+    	}
     }
 
     public void setNumberOfLoops(long numberOfLoops) {

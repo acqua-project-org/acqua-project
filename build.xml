@@ -30,7 +30,7 @@
 		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" debug="on" debuglevel="lines,vars,source"/>
 	</target>
 
-	<target name="dist" depends="compile, javadoc">
+	<target name="dist" depends="compile">
 		<mkdir dir="${dist.dir}"/>
 		<jar destfile="${dist.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
 			<manifest>
@@ -53,5 +53,6 @@
 
 
 	<target name="clean-build" depends="clean,dist"/>
+	<target name="all" depends="dist,javadoc"/>
 
 </project>

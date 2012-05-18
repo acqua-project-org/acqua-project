@@ -1,12 +1,15 @@
 
 package org.inria.acqua.plugins;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.SimpleTimeZone;
 
 import org.inria.acqua.layers.HistoryData;
@@ -22,6 +25,7 @@ import org.inria.acqua.plugins.campaigngenerator.CampaignDumpReader;
 import org.inria.acqua.plugins.campaigngenerator.CampaignGenerator2G;
 import org.inria.acqua.plugins.campaigngenerator.InverseDumpReader;
 import org.inria.acqua.plugins.campaigngenerator.InverseDumpReaderOnTheFly;
+import org.inria.acqua.plugins.campaigngenerator.StdinCampaignReader;
 import org.inria.acqua.plugins.campaigngenerator.pingabstraction.Pinger;
 import org.inria.acqua.plugins.ifdumper.IFDumper;
 import org.inria.acqua.plugins.ifestimator.IFEstimator;
@@ -308,6 +312,74 @@ public class PipelineCreator {
         pc.inputFlowElement = fe;
         return pc;
     }
+
+    /**********************************/
+    /***** Pipeline for Grenouille ****/
+    /**********************************/
+
+    public static PipelineCreator getPipelineGrenouille(
+            ConfigParser cp) throws Exception{
+
+    	// Put in place the list of landmarks for which pings will be received. 
+        ArrayList<Landmark> landmarks = new ArrayList<Landmark>();
+
+
+        // Create the default FlowElement. 
+        FlowElement fe = new FlowElement();
+
+        fe.put(PipDefs.FE_VERSION,"1.0a");
+        fe.put(PipDefs.FE_INPUT_ID,new Integer((new Random()).nextInt()));
+        fe.put(PipDefs.FE_TIMEOUT_MS, cp.getTimeoutSeconds()*1000);
+        fe.put(PipDefs.FE_PACKET_SIZE, new Integer(56));
+        fe.put(PipDefs.FE_COUNT, cp.getNumberOfPings());
+        fe.put(PipDefs.FE_T_PING_MS, new Integer(50));
+        //fe.put(PipDefs.FE_SIGNIFICANCE_LEVEL, new Float((float)cp.getSignificanceLevel()/1000.0f));
+        fe.put(PipDefs.FE_ANOMALY_DETECTOR_PARAM1, new Double((float)cp.getAnomalyDetectionParameter1()));
+        fe.put(PipDefs.FE_ANOMALY_DETECTOR_PARAM2, new Double((float)cp.getAnomalyDetectionParameter2()));
+        fe.put(PipDefs.FE_ANOMALY_DETECTOR_PARAM3, new Double((float)cp.getAnomalyDetectionParameter3()));
+        fe.put(PipDefs.FE_ANOMALY_DETECTOR_PARAM4, new Double((float)cp.getAnomalyDetectionParameter4()));
+        fe.put(PipDefs.FE_ANOMALY_DETECTOR_PARAM5, new Double((float)cp.getAnomalyDetectionParameter5()));
+        fe.put(PipDefs.FE_T_CAMP_MS,cp.getIFEExecutionPeriod());
+        fe.put(PipDefs.FE_LANDMARKS_LIST,landmarks);
+
+        // Create the pipeline. 
+        Pipeline pipeline = new Pipeline();
+
+        // Start concatenating the different pipeline elements to process
+        // the data from the raw pings' information until the IFE. 
+        
+        // First element of the pipeline: CampaignDumpReader (through stdin). 
+//        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        Scanner stdin = new Scanner (System.in);
+        Pipelineable initialPipelineElement = new StdinCampaignReader(stdin);
+        pipeline.addAsFirst("reader", initialPipelineElement);
+
+        // Second element of the pipeline: single landmark anomaly detector. 
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put(AnomalyDetectorBernoulli.EPSILON_KEY, cp.getAnomalyDetectionParameter1());
+        params.put(AnomalyDetectorBernoulli.LOWER_INDEX_KEY, cp.getAnomalyDetectionParameter2());
+        params.put(AnomalyDetectorBernoulli.UPPER_INDEX_KEY, cp.getAnomalyDetectionParameter3());
+        GeneralAnomalyDetector ad = new GeneralAnomalyDetector(params);
+        pipeline.add("ad", ad);
+
+        // Third element of the pipeline: IF Estimator. 
+        IFEstimator ife = new IFEstimator();
+        pipeline.add("ife", ife);
+
+        IFDumper ifdumper = new IFDumper("ifesummary.logger");
+        pipeline.add("ifdump", ifdumper);
+        
+        // Concatenate the different elements of the pipeline. 
+        initialPipelineElement.addAsSink(ad);
+        ad.addAsSink(ife);
+        ife.addAsSink(ifdumper);
+
+        PipelineCreator pc = new PipelineCreator();
+        pc.pipeline = pipeline;
+        pc.inputFlowElement = fe;
+        return pc;
+    }
+
 
     /*********************/
     /***** PROCESSING ****/

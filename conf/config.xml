@@ -16,7 +16,7 @@
         <!-- Path and name of the IFE tool. -->
         <ife_path_and_name/>
         <!-- Period of campains (in milliseconds). -->
-        <ife_execution_period value="60000"/>
+        <ife_execution_period value="1000"/>
         <!-- Amplitude of the anomaly (in milliseconds) to detect. -->
 		<anomaly_detection_parameter1 value="14.0"/>
         <!-- Lower index threshold to start judging as anomaly. Between 0 and 1. -->
