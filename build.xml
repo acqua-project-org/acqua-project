@@ -40,7 +40,7 @@
 	</target>
 
 	<target name="javadoc">
-		<javadoc excludepackagenames="org.test.supercsv.mock" access="public" destdir="${javadoc.dir}" author="true" version="true" use="true" windowtitle="org.Super.CSV.API" >
+		<javadoc excludepackagenames="org.test.supercsv.mock" access="public" destdir="${javadoc.dir}" author="true" version="true" use="true" windowtitle="org.Super.CSV.API" classpathref="classpath">
 
 			<fileset dir="${src.dir}" defaultexcludes="yes">
 				<include name="**/*.java"/>

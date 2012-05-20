@@ -1,5 +1,8 @@
 package org.inria.acqua.mjmisc;
 
+/**
+ * @author mjost
+ */
 public class ProcessOutput {
     private String outputSTDOUT;
     private int returnValue;

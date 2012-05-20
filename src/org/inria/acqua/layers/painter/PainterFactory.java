@@ -2,6 +2,9 @@ package org.inria.acqua.layers.painter;
 
 import java.util.ArrayList;
 
+/**
+ * @author mjost
+ */
 public class PainterFactory {
     public static ArrayList<Painter> getNewPainters(int type) throws Exception{
         ArrayList<Painter> arr = new ArrayList<Painter>();

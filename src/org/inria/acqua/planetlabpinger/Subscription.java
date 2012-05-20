@@ -5,9 +5,13 @@ import java.util.ArrayList;
 import org.inria.acqua.mjmisc.Misc;
 import org.inria.acqua.mjmisc.MiscIP;
 
+/**
+ * Represents a client that wants to be pinged to have an Inverse IFE service. 
+ * @author mjost
+ */
 public class Subscription {
-    private String name;
-    private String ip;
+    private String name; // Login name of the client/user. 
+    private String ip;   // IP address of that client/user. 
     
     public Subscription(String name, String ip) throws Exception{
         this.name = name;

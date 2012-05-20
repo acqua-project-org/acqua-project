@@ -6,6 +6,9 @@ import java.util.concurrent.TimeoutException;
 
 import org.apache.log4j.Logger;
 
+/**
+ * @author mjost
+ */
 public class FTPClientWrapper {
 	private static Logger logger = Logger.getLogger(FTPClientWrapper.class.getName()); 
     //private FTPClient client;

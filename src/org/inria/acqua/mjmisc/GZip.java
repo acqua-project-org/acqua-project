@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.zip.GZIPInputStream;
 
+/**
+ * @author mjost
+ */
 public class GZip{
     public static void ungzip(String inFilename, String outFilename) throws IOException{
         

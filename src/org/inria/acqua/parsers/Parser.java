@@ -4,8 +4,9 @@ import org.inria.acqua.mjmisc.Misc;
 
 
 /**
- * Parser base.
- * It is supposed to be inherited.
+ * Parsers' "template".
+ * It is supposed to be inherited by any kind of configuration-file parser.
+ * @author mjost
  */
 public abstract class Parser {
     

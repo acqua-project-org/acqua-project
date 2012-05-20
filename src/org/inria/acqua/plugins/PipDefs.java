@@ -1,6 +1,9 @@
 
 package org.inria.acqua.plugins;
 
+/**
+ * @author mjost
+ */
 public class PipDefs {
     public static final String SIGN_INPUT = "sign_input";
     public static final String SIGN_ANDETGEN = "sign_andet_gen";

@@ -35,7 +35,9 @@ import org.inria.acqua.plugins.ifestimator.IFEstimatorToCurveElement;
 
 /** 
  * Creator of pipelines. 
- * Edit this class if you want acqua to support more Pipeline configurations. */
+ * Edit this class if you want acqua to support more Pipeline configurations. 
+ * @author mjost
+ */
 public class PipelineCreator {
 	private static Logger logger = Logger.getLogger(PipelineCreator.class.getName()); 
     private Pipeline pipeline;
@@ -190,7 +192,7 @@ public class PipelineCreator {
 
 
         //Pipelineable initialPipelineElement = new CampaignDumpReader(dir + prefix + "-output.txt");
-        Pipelineable initialPipelineElement = new CampaignGenerator2G("output.txt");
+        Pipelineable initialPipelineElement = new CampaignGenerator2G("output.txt", true);
         pipeline.addAsFirst("generator", initialPipelineElement);
 
         //HashMap<String, Object> params = new HashMap<String, Object>();

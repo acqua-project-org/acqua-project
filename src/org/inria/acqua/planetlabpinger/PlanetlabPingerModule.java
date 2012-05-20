@@ -14,6 +14,10 @@ import org.inria.acqua.realtimer.RealtimeNotifiable;
 import org.inria.acqua.realtimer.RealtimeTask;
 
 
+/**
+ * Prototype. 
+ * @author mjost
+ */
 public class PlanetlabPingerModule implements RealtimeNotifiable{
 	private static Logger logger = Logger.getLogger(PlanetlabPingerModule.class.getName()); 
     private String FTPServerName;
@@ -149,6 +153,8 @@ public class PlanetlabPingerModule implements RealtimeNotifiable{
         return false;
     }
 
+    /**
+     * Load configuration/accounts file from the server. */
     private void updateLocalParameters(){
         Runnable r = new Runnable(){
             public void run(){

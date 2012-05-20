@@ -17,6 +17,10 @@ import org.inria.acqua.plugins.PipDefs;
 import org.inria.acqua.plugins.Pipelineable;
 
 
+/**
+ * This class handles several AnomalyDetector elements (addressed to one landmark each).
+ * @author mjost
+ */
 public class GeneralAnomalyDetector implements Pipelineable{
 	private static Logger logger = Logger.getLogger(GeneralAnomalyDetector.class.getName()); 
     private ArrayList<Pipelineable> sinks;
@@ -41,10 +45,6 @@ public class GeneralAnomalyDetector implements Pipelineable{
 
     public void addAsSink(Pipelineable p) {
         sinks.add(p);
-    }
-
-    private void print(String pr){
-        logger.info(pr);
     }
 
     public void insertFlowElement(FlowElement fe, String signature) throws Exception {

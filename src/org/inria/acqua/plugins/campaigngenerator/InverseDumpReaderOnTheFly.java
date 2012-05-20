@@ -19,7 +19,11 @@ import org.inria.acqua.plugins.FlowElement;
 import org.inria.acqua.plugins.PipDefs;
 import org.inria.acqua.plugins.Pipelineable;
 
-
+/**
+ * To read Inverse IFE dumps (several files put in place by pingers) directly from the
+ * FTP server. 
+ * @author mjost
+ */
 public class InverseDumpReaderOnTheFly implements Pipelineable{
     
 	private static Logger logger = Logger.getLogger(InverseDumpReaderOnTheFly.class.getName()); 

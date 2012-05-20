@@ -6,6 +6,9 @@ import java.awt.event.*;
 import org.inria.acqua.forms.labelnotification.LabelNotifierEmitter;
 import org.inria.acqua.forms.labelnotification.LabelNotifierReceptor;
 
+/**
+ * @author mjost
+ */
 public class EventsListener implements KeyListener {
     private LabelNotifierEmitter labelNotifierEmitter;
     private ExternalModule externalModule;

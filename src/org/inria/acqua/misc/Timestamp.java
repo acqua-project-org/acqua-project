@@ -7,6 +7,9 @@ import java.util.Locale;
 import org.inria.acqua.exceptions.IllegalComparisonException;
 import org.inria.acqua.mjmisc.MiscDate;
 
+/**
+ * @author mjost
+ */
 public class Timestamp {
     public static final String TIMEOUT = "timeout"; /* Used to generate new Timestamp with timeout. */
 

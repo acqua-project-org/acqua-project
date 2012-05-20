@@ -4,6 +4,9 @@ import java.awt.Graphics;
 
 import org.inria.acqua.layers.Curve;
 
+/**
+ * @author mjost
+ */
 public interface Painter {
     public void changeSignal(CurveElement ce, int x1, int x2, int zoom) throws Exception;
     public void paintThis(Curve curve, Graphics g);

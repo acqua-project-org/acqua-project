@@ -14,6 +14,7 @@ import org.inria.acqua.layers.painter.Painter;
 /**
  * This class is graphical and just
  * represents data that is given.
+ * @author mjost
  */
 public class Curve extends JPanel implements MouseMotionListener{
     private Color colBackground = Color.white;

@@ -10,6 +10,10 @@ import org.inria.acqua.misc.Timestamp;
 import org.inria.acqua.plugins.campaigngenerator.pingabstraction.Pinger;
 
 
+/**
+ * Pings many landmarks concurrently to decrease measurement time. 
+ * @author mjost
+ */
 public class ParallelPinger extends Thread{
 	private static Logger logger = Logger.getLogger(ParallelPinger.class.getName()); 
     private int count;

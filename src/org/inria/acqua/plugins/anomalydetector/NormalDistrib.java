@@ -4,7 +4,9 @@ import java.util.Locale;
 
 import org.inria.acqua.misc.ErrorFunction;
 
-
+/**
+ * @author mjost
+ */
 public class NormalDistrib {
 
     public static float getPDF(float x, float u, float s){

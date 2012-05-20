@@ -15,6 +15,9 @@ import org.inria.acqua.mjmisc.MiscIP;
 import org.inria.acqua.plugins.FlowElement;
 
 
+/**
+ * @author mjost
+ */
 public class FEReader {
 	private static Logger logger = Logger.getLogger(FEReader.class.getName()); 
     private Gson gson;

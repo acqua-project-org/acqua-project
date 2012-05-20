@@ -13,7 +13,10 @@ import org.inria.acqua.plugins.Pipelineable;
 
 import com.google.gson.Gson;
 
-
+/**
+ * Dumps IFE into a file/stdout. 
+ * @author mjost
+ */
 public class IFDumper implements Pipelineable{
     private String ifeSummaryFilename;
     private ArrayList<Pipelineable> sinks;

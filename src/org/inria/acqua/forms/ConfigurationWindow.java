@@ -19,7 +19,9 @@ import org.inria.acqua.mjmisc.Misc;
 import org.inria.acqua.parsers.ConfigParser;
 import org.inria.acqua.plugins.campaigngenerator.pingabstraction.Pinger;
 
-
+/**
+ * @author mjost
+ */
 public class ConfigurationWindow extends javax.swing.JFrame {
     private static ConfigurationWindow instance = null; /** Singleton stuff. */
     private static final int TAB_CASE1 = 0; /** IDs to identify which tab the user has selected. */

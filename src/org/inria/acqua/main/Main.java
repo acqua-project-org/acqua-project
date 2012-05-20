@@ -17,7 +17,9 @@ import org.inria.acqua.plugins.campaigngenerator.InverseDumpReaderOnTheFly;
 import jargs.gnu.CmdLineParser;
 
 /** 
- * This is the starter class. */
+ * This is the starter class. 
+ * @author mjost.
+ */
 public class Main{
 	private static Logger logger = Logger.getLogger(Main.class.getName()); 
 	
@@ -101,24 +103,13 @@ public class Main{
             parser.parse(args);
         }
         catch ( CmdLineParser.OptionException e ) {
-            System.err.println(e.getMessage());
-	        System.out.println(
-                "Incorrect parameters.\n" +
+            System.err.println("Error parsing command-line parameters: " + e.getMessage());
+	        System.err.println(
                 "Usage:\n" +
                 "   <executable> options\n" +
-                "Options:\n" +
-                "   -g              graphical interface (default pipeline) \n" +
-                "   -m              mute mode (no graphical interface), CampaignGenerator -> PingDumper \n" +
-                "   -x FILE         mute mode (no CampaignGenerator in the pipeline, so ping-campaings are created by reading a file that contains json object with ping-information)\n" +
-                "   -i DIRECTORY IP inverse IFE estimation\n" +
-                "   -r              real time IFE generator (from ping-files generated from Planetlab nodes, put through FTP into the local filesystem)\n" +
-                "Examples:\n" +
-                "   <executable> -g\n" +
-                "   <executable> -mf ..\\..\\experimental\\measurements-stageII\\ mo1\n" +
-                "   <executable> -i D:\\PFE\\remote\\experimental\\measurements-stageII\\inverse 213.186.117.56 \n" +
+                "Read the README file for more help.\n" +
                 "\n"
                 );
-
             System.exit(2);
         }
 

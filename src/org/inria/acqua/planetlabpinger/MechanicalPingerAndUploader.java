@@ -23,6 +23,10 @@ import org.inria.acqua.plugins.campaigngenerator.MeasurementReceiver;
 import org.inria.acqua.plugins.campaigngenerator.ParallelPinger;
 
 
+/**
+ * Pinger. Generates campaigns and uploads them to the server. 
+ * @author mjost
+ */
 public class MechanicalPingerAndUploader extends Thread implements MeasurementReceiver{
 	private static Logger logger = Logger.getLogger(MechanicalPingerAndUploader.class.getName()); 
     private Subscription clientToPing;

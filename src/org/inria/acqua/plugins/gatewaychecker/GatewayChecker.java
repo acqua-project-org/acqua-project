@@ -14,7 +14,10 @@ import org.inria.acqua.plugins.Pipelineable;
 import org.inria.acqua.plugins.anomalydetector.AnomalyDetector;
 import org.inria.acqua.plugins.anomalydetector.GeneralAnomalyDetector;
 
-
+/**
+ * Checks whether the gateway is behaving properly. 
+ * @author mjost
+ */
 public class GatewayChecker implements Pipelineable{
 	private static Logger logger = Logger.getLogger(GatewayChecker.class.getName()); 
     public static final String COMMAND_CHECK_GATEWAY_IF_ABNORMAL = "command-checkgateway";

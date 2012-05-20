@@ -1,15 +1,16 @@
 package org.inria.acqua.plugins.ifestimator;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
-
 import org.inria.acqua.layers.painter.CurveElement;
 import org.inria.acqua.misc.Landmark;
 import org.inria.acqua.plugins.FlowElement;
 import org.inria.acqua.plugins.PipDefs;
 
-
+/**
+ * Maps an IFE Flow Element to Curve elements to plot them later. 
+ * @author mjost
+ */
 public class IFEstimatorToCurveElement {
     public static final String NAME_IFE = "ife";
     public static final String NAME_RTT = "rtt";

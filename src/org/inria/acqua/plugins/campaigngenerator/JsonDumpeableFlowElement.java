@@ -13,6 +13,10 @@ import org.inria.acqua.plugins.PipDefs;
 import com.google.gson.Gson;
 
 
+/**
+ * Class that is used as a template for the json formatting of the FlowElement objects. 
+ * @author mjost
+ */
 public class JsonDumpeableFlowElement {
 	
 	private static Logger logger = Logger.getLogger(JsonDumpeableFlowElement.class.getName()); 

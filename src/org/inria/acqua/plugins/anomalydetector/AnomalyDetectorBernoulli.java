@@ -22,7 +22,9 @@ import org.inria.acqua.plugins.Pipelineable;
 
 
 
-/* Anomaly detector for ONE LANDMARK. */
+/** Anomaly detector for ONE LANDMARK. 
+ * @author mjost
+ */
 public class AnomalyDetectorBernoulli implements Pipelineable{
 	private static Logger logger = Logger.getLogger(AnomalyDetectorBernoulli.class.getName()); 
     public static final String EPSILON_KEY = "epsilon-key";

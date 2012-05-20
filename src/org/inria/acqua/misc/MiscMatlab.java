@@ -7,6 +7,9 @@ import java.util.Locale;
 
 import org.apache.log4j.Logger;
 
+/**
+ * @author mjost
+ */
 public class MiscMatlab {
 	private static Logger logger = Logger.getLogger(MiscMatlab.class.getName()); 
 

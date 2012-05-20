@@ -8,6 +8,9 @@ import java.util.Locale;
 
 import org.inria.acqua.layers.Curve;
 
+/**
+ * @author mjost
+ */
 public class CurvePainter implements Painter{
     private static final int ADD = 0;
     private static final int COMPARE = 1;

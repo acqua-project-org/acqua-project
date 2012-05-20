@@ -3,6 +3,9 @@ package org.inria.acqua.layers.painter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author mjost
+ */
 public class CurveElement {
     public static final int UNINITIALIZED                       = 0; /* 0 Base. */
     public static final int BASIC_1ARG                          = 1; /* 0 Base. */

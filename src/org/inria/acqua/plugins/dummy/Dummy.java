@@ -8,11 +8,13 @@ import org.inria.acqua.plugins.Pipelineable;
 
 
 /**
+ * Academic purposes. 
  * Pipeline element: Pipe.
  * Input:
  * - doesn't matter
  * Output:
  * - the same input
+ * @author mjost
  */
 public class Dummy implements Pipelineable{
     private ArrayList<Pipelineable> sinks;

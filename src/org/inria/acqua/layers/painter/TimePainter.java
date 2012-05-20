@@ -10,6 +10,9 @@ import org.inria.acqua.layers.Curve;
 import org.inria.acqua.misc.Timestamp;
 
 
+/**
+ * @author mjost
+ */
 public class TimePainter implements Painter{
     private int numberOfSlots = 40;
     private List<Timestamp> signalTime;

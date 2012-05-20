@@ -8,6 +8,9 @@ import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JLabel;
 
+/**
+ * @author mjost
+ */
 public class LabelNotifierReceptor extends Thread{
     public static final int SERIOUSNESS_ERROR = 12;
     public static final int SERIOUSNESS_ATTENTION = 8;

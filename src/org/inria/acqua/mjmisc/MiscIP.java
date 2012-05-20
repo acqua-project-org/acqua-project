@@ -10,7 +10,9 @@ import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
 import org.inria.acqua.mjmisc.exceptions.OSNotSupportedException;
 
-
+/**
+ * @author mjost
+ */
 public class MiscIP {
 	private static Logger logger = Logger.getLogger(MiscIP.class.getName()); 
     private static Pattern IP_CHECKER_REGEX = Pattern.compile("(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})");

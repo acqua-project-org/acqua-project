@@ -17,7 +17,10 @@ import org.inria.acqua.plugins.Pipelineable;
 
 
 
-/* Anomaly detector for ONE LANDMARK. */
+/** 
+ * Anomaly detector for ONE LANDMARK. 
+ * @author mjost
+ */
 public class AnomalyDetector implements Pipelineable{
 	private static Logger logger = Logger.getLogger(AnomalyDetector.class.getName()); 
     //private static final int SECONDS_AS_REFERENCE = 24*60*60; /* 24 HS. */

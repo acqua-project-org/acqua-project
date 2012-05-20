@@ -5,7 +5,10 @@ import java.util.HashMap;
 
 import org.inria.acqua.layers.painter.CurveElement;
 
-/** This class stores all data read in a session. */
+/** 
+ * This class stores all data read in a session. 
+ * @author mjost
+ */
 public class HistoryData implements Serializable{
     private HashMap<String, CurveElement> curveElements;
     

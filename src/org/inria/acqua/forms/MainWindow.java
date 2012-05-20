@@ -15,7 +15,10 @@ import org.inria.acqua.plugins.anomalydetector.AnomalyDetector;
 
 import java.util.ArrayList;
 
-/** Class that shows to the user the parameters measured. */
+/** 
+ * Class that shows to the user the parameters measured. 
+ * @author mjost
+ */
 public class MainWindow extends javax.swing.JFrame {
     
     private ArrayList<Curve> curves;        /* Set of curves' objects in this frame. */

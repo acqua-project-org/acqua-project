@@ -36,6 +36,10 @@ import org.inria.acqua.plugins.anomalydetector.NormalDistrib;
  * Justificación? Fácil, queremos ver cómo capturaríamos la información.
  * Queremos un entorno COMPLETAMENTE CONTROLADO.
  */
+/**
+ * Element of the pipeline that takes anomalies of many landmarks and estimates the Impact Factor. 
+ * @author mjost
+ */
 public class IFEstimator implements Pipelineable{
 	private static Logger logger = Logger.getLogger(IFEstimator.class.getName()); 
     private ArrayList<Pipelineable> sinks;

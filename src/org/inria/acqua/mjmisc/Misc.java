@@ -24,7 +24,10 @@ import org.apache.log4j.Logger;
 import org.inria.acqua.mjmisc.exceptions.OSNotSupportedException;
 
 
-/** This class is supposed to have multiple minor functionalities. */
+/** 
+ * This class provides several functionalities. 
+ * @author mjost
+ */
 public class Misc {
 
 	private static Logger logger = Logger.getLogger(Misc.class.getName()); 

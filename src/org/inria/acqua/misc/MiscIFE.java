@@ -9,7 +9,6 @@ import java.util.Calendar;
 import java.util.Locale;
 
 /**
- *
  * @author Mauricio
  */
 public class MiscIFE {

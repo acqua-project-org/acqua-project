@@ -14,7 +14,9 @@ import org.inria.acqua.plugins.Pipelineable;
 
 /**
  * This class converts string-lines coming from stdin into flowElements containing
- * Ping Campaings (pings done to many landmarks). */
+ * Ping Campaings (pings done to many landmarks). 
+ * @author mjost
+ * */
 public class StdinCampaignReader implements Pipelineable{
 	private static Logger logger = Logger.getLogger(StdinCampaignReader.class.getName()); 
     private ArrayList<Pipelineable> sinks;

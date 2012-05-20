@@ -13,6 +13,7 @@ import org.w3c.dom.Node;
  * Parser of Configuration files.
  * As all of them, this parser uses regular expressions to get the fields of such file.
  * It also can write this file.
+ * @author mjost
  */
 public class ConfigParser extends Parser{
 	private static Logger logger = Logger.getLogger(ConfigParser.class.getName()); 

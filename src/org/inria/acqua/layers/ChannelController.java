@@ -14,6 +14,7 @@ import org.inria.acqua.layers.painter.PainterFactory;
  * according to the signature that it has. The signature tells what should be printed
  * in the curve (time, curve, curve+statistics, etc.).
  * This is the nexum between the External Module and one Curve.
+ * @author mjost
  */
 public class ChannelController implements Serializable{
 

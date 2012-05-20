@@ -7,9 +7,10 @@ import org.inria.acqua.exceptions.UnsupportedCommandException;
 import org.inria.acqua.forms.Commandable;
 import org.inria.acqua.mjmisc.Misc;
 
-
-
-
+/**
+ * The pipeline is a set of pipeline-elements connected following a given configuration. 
+ * @author mjost
+ */
 public class Pipeline implements Commandable{
     private HashMap<String, Pipelineable> elements;
     private Pipelineable firstElement;

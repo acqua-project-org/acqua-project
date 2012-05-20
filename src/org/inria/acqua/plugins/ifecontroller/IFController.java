@@ -13,7 +13,10 @@ import org.inria.acqua.plugins.Pipelineable;
 import org.inria.acqua.plugins.anomalydetector.AnomalyDetector;
 import org.inria.acqua.plugins.gatewaychecker.GatewayChecker;
 
-
+/**
+ * Controls that IFE is in a given range. 
+ * @author mjost
+ */
 public class IFController implements Pipelineable{
 	private static Logger logger = Logger.getLogger(IFController.class.getName()); 
     public static final String COMMAND_NOTIFY_TO_USER = "command-notify-to-user";

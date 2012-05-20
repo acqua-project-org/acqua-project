@@ -11,6 +11,8 @@ import org.inria.acqua.plugins.*;
 import org.inria.acqua.plugins.campaigngenerator.pingabstraction.Pinger;
 
 /**
+ * First generation of the CampaignGenerator class. 
+ * @author mjost
  * Pipeline element: CampaignGenerator.
  * Input:
  * - version

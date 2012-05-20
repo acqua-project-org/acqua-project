@@ -9,6 +9,9 @@ import org.inria.acqua.mjmisc.MiscIP;
 import org.inria.acqua.plugins.campaigngenerator.pingabstraction.Pinger;
 
 
+/**
+ * @author mjost
+ */
 public class Landmark {
 
     public static final int TYPE_UNKNOWN    = 0; /** Not known type of landmark object. */

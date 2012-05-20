@@ -2,6 +2,9 @@ package org.inria.acqua.misc;
 
 import java.util.ArrayList;
 
+/**
+ * @author mjost
+ */
 public class QuickSort{
     private ArrayList<Float> numbers;
     private int number;

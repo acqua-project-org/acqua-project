@@ -15,7 +15,12 @@ import org.inria.acqua.plugins.PipDefs;
 import org.inria.acqua.plugins.Pipelineable;
 import org.inria.acqua.plugins.anomalydetector.AnomalyDetectorBernoulli;
 
-
+/**
+ * Performs Inverse IFE by reading the pings that Pingers put in the filesystem. 
+ * Then it performs IFE considering only the monitored point (i.e. only one of the clients
+ * that the pingers in Planetlab were pinging). 
+ * @author mjost
+ */
 public class InverseDumpReader implements Pipelineable{
     
 	private static Logger logger = Logger.getLogger(InverseDumpReader.class.getName()); 

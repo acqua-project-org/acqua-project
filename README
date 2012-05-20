@@ -1,20 +1,42 @@
+/////////////////////
+/// ACQUA PROJECT ///
+/////////////////////
+
 OPEN DOCUMENT
+Developers' information can be found in:
+
 https://docs.google.com/document/d/1i36gy5kDeudaGVFTScWLJzJpI_cOZWEy_bJraW_q9bE/edit
 
 COMPILE
 
-$ ant dist 
+To compile the project, just make sure you have installed Ant java project's builder on your system. Then use the target 'all' like this: 
+
+$ ant all
+
+Documents (in javadoc format) are generated in dist/docs/index.html after compilation. 
+
+EXECUTION
+
+Use the script acqua in bin as follows: 
+
+$ cd bin
+$ ./acqua 
+
+EXECUTION FLAGS 
 
 USAGE EXAMPLES
 
--i E:\all peeramidion.irisa.fr         # to analyze from inverse IFE
--x E:\all\peeramidion.irisa.fr-outputbak.txt-cut.txt
--x D:\PFE\remote\code\gui_experiments\inverse-august\last-pa\lastpa\last-pa-dist\output.txt
--x D:\PFE\remote\code\gui_experiments\inverse-august\output-erriapo\output.txt
--p             # to run in a Planetlab node as pinger
+# Normal IFE 
+$ acqua -m                                         # to generate ping's campaign file. 
+$ acqua -x <file_output.txt>                       # to read a ping's campaign file and generate IFE. 
 
--j sandun
--j papi 17/08/2011_16:47:00.000_GMT_+0000     (don't forget to modify planetlabanalyzer_config.txt) 
+# Inverse IFE
+$ acqua -p                                         # to run in a Planetlab node as pinger (to later perform Inverse IFE).
+$ acqua -i <samples_dir> <target_landmark>         # to analyze IFE of a particular landmark using samples obtained from pingers (this is Inverse IFE).
+
+# Real time Inverse IFE 
+$ acqua -j sandun
+$ acqua -j papi 17/08/2011_16:47:00.000_GMT_+0000     (don't forget to modify planetlabanalyzer_config.txt) 
 
 
 

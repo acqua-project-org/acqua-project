@@ -15,6 +15,7 @@ import javax.xml.xpath.*;
 
 /**
  * Class that deals with XML concepts. Uses XPATH for queries.
+ * @author mjost
  */
 public class XMLParser {
     private Document documentDOM;

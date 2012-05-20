@@ -14,6 +14,7 @@ import org.inria.acqua.forms.labelnotification.LabelNotifierReceptor;
 /**
  * This class performs real-time execution of
  * a task that executes IFE.
+ * @author mjost
  */
 public class RealtimeTask extends Thread{
 	private static Logger logger = Logger.getLogger(RealtimeTask.class.getName()); 

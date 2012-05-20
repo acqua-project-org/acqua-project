@@ -10,6 +10,8 @@ import org.inria.acqua.plugins.*;
 
 
 /**
+ * Second generation of the CampaignGenerator class. 
+ * @author mjost
  * Pipeline element: CampaignGenerator.
  * Input:
  * - version
@@ -40,12 +42,17 @@ public class CampaignGenerator2G implements Pipelineable, MeasurementReceiver{
     private String dumpFilename;
     private Gson gson;
     private int campaignID;
+    private boolean tostdout; 
 
     public CampaignGenerator2G(){
         this(null);
     }
 
     public CampaignGenerator2G(String dumpFilename){
+    	this(dumpFilename, false);
+    }
+    
+    public CampaignGenerator2G(String dumpFilename, boolean tostdout){
         sinks = new ArrayList<Pipelineable>();
         this.dumpFilename = dumpFilename;
         if (dumpFilename!=null){
@@ -57,6 +64,7 @@ public class CampaignGenerator2G implements Pipelineable, MeasurementReceiver{
         }
         gson = new Gson();
         campaignID = 0;
+        this.tostdout = tostdout; 
     }
 
 
@@ -155,9 +163,12 @@ public class CampaignGenerator2G implements Pipelineable, MeasurementReceiver{
             fe.put(PipDefs.FE_LOGIN_NAME, "login_name_value");
             fe.put(PipDefs.FE_IP_SRC, "fill it"/*MiscIP.getPublicIPAddress()*/);
 
+            String jsonstr = gson.toJson(new JsonDumpeableFlowElement(fe));
             if (dumpFilename!=null){
-                String jsonstr = gson.toJson(new JsonDumpeableFlowElement(fe));
                 Misc.appendToFile(dumpFilename, jsonstr + "\n");
+            }
+            if (tostdout){
+                System.out.println(jsonstr);
             }
 
             if (!sinks.isEmpty()){
@@ -165,7 +176,7 @@ public class CampaignGenerator2G implements Pipelineable, MeasurementReceiver{
                     sink.insertFlowElement(fe,PipDefs.SIGN_PINGGEN);
                 }
             }else{
-                System.err.println("There is no sink connected.");
+                logger.warn("There is no sink connected.");
             }
         }else{
             throw new Exception("ERROR: Some pings failed to return. Too delayed system.");

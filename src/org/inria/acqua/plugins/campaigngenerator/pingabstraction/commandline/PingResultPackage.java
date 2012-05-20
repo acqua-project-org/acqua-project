@@ -8,6 +8,12 @@ import org.inria.acqua.mjmisc.Misc;
 import org.inria.acqua.mjmisc.ProcessOutput;
 import org.inria.acqua.mjmisc.exceptions.OSNotSupportedException;
 
+/**
+ * Abstraction of output of a ping command. 
+ * This will execute a ping command, parse its output, and provide the results in a more
+ * comfortable way. 
+ * @author mjost
+ */
 public class PingResultPackage {
     private static Pattern successPatternWindows = Pattern.compile( "[0-9.]{7,15}: bytes=\\d{1,3} \\w{3,8}[=<](\\d{1,6})m");
     private static Pattern allLostPatternWindows = Pattern.compile( ".*ping.*bytes.*100%", Pattern.DOTALL);

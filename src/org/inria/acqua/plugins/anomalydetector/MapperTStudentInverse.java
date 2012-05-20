@@ -6,7 +6,9 @@ import java.util.Locale;
 import org.apache.log4j.Logger;
 import org.inria.acqua.misc.*;
 
-
+/**
+ * @author mjost
+ */
 public class MapperTStudentInverse {
 
 	private static Logger logger = Logger.getLogger(MapperTStudentInverse.class.getName()); 

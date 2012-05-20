@@ -5,6 +5,10 @@ import java.util.HashMap;
 import org.apache.log4j.Logger;
 
 
+/**
+ * Basic unit of data that flows through the pipeline and its constituent elements. 
+ * @author mjost
+ */
 public class FlowElement{
 	private static Logger logger = Logger.getLogger(FlowElement.class.getName()); 
     private HashMap data;

@@ -5,6 +5,9 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.UIManager;
 
+/**
+ * @author mjost
+ */
 public class CommandLineWindow extends javax.swing.JFrame {
 
     private ArrayList<String> commandsList;

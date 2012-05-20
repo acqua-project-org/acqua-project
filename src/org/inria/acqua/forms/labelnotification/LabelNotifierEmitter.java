@@ -2,6 +2,9 @@ package org.inria.acqua.forms.labelnotification;
 
 import java.util.ArrayList;
 
+/**
+ * @author mjost
+ */
 public class LabelNotifierEmitter {
     private ArrayList<LabelNotifierReceptor> receptors;
 

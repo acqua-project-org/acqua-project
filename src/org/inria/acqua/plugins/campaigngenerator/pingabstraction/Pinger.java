@@ -9,6 +9,12 @@ import org.inria.acqua.mjmisc.exceptions.OSNotSupportedException;
 import org.inria.acqua.plugins.campaigngenerator.pingabstraction.commandline.PingResultPackage;
 
 
+/**
+ * Abstraction of the ping command. 
+ * It can be executed through command-line (using the default OS-provided ping command)
+ * or using a given library. 
+ * @author mjost
+ */
 public class Pinger {
     public static float ping(String landmark, int timeout_sec, int packet_size) throws IllegalArgumentException, OSNotSupportedException, ParsingException, IOException{
         return pingWithCommandLine(landmark, timeout_sec, packet_size);
