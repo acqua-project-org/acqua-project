@@ -9,6 +9,7 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.TimeoutException;
 
+import org.apache.log4j.Logger;
 import org.inria.acqua.misc.FTPClientWrapper;
 import org.inria.acqua.misc.Landmark;
 import org.inria.acqua.misc.MiscIFE;
@@ -23,6 +24,7 @@ import org.inria.acqua.plugins.campaigngenerator.ParallelPinger;
 
 
 public class MechanicalPingerAndUploader extends Thread implements MeasurementReceiver{
+	private static Logger logger = Logger.getLogger(MechanicalPingerAndUploader.class.getName()); 
     private Subscription clientToPing;
     private String creationTimeFormatted_high;
     private String creationTimeFormatted_low;
@@ -66,7 +68,7 @@ public class MechanicalPingerAndUploader extends Thread implements MeasurementRe
     public void run(){
         String finalpath = "nothing";
         String ID = this.creationTimeFormatted_low + this.clientToPing.getName();
-        System.out.println("["+ID+"]Pinging started: to '" + clientToPing.getName() + "' at '" + creationTimeFormatted_low + "'...");
+        logger.info("["+ID+"]Pinging started: to '" + clientToPing.getName() + "' at '" + creationTimeFormatted_low + "'...");
         try{
             /*******************/
             /* Do the pings... */
@@ -75,7 +77,7 @@ public class MechanicalPingerAndUploader extends Thread implements MeasurementRe
             ParallelPinger pp = new ParallelPinger(this, 1, 1, new Landmark(clientToPing.getPublicIP()),
                     pingTimeoutSeconds, packetSize, pingsPerCampaign, 20);
             pp.run(); /* Now our buffer 'resultPings' is filled. */
-            //System.out.println("["+ID+"]Finished pinging...");
+            //logger.info("["+ID+"]Finished pinging...");
             /***********************************/
             /* Put in result the JSON element. */
             /***********************************/
@@ -127,7 +129,7 @@ public class MechanicalPingerAndUploader extends Thread implements MeasurementRe
                 try{
                 hostname = MiscIP.getPublicIPAddress();
                 }catch(Exception ex){
-                    System.out.println("["+ID+"]Couldn't find out any hostname. Using 'noname'.");
+                    logger.info("["+ID+"]Couldn't find out any hostname. Using 'noname'.");
                     e.printStackTrace();
                 }
             }
@@ -136,38 +138,38 @@ public class MechanicalPingerAndUploader extends Thread implements MeasurementRe
                     creationTimeFormatted_low + "/" + clientToPing.getName() + "/" + hostname + ".txt";
 
             int mili = (new Random()).nextInt(30*1000);
-            System.out.println("["+ID+"]Done pinging. Uploading in " + mili +" milliseconds...");
+            logger.info("["+ID+"]Done pinging. Uploading in " + mili +" milliseconds...");
             Thread.sleep(mili);
             
-            System.out.println("["+ID+"]Woken up.");
+            logger.info("["+ID+"]Woken up.");
             boolean general_success = false;
             int attemps = 6;
             for(int i=0;i<attemps;i++){
                 boolean success = false;
                 try{
                     FTPClientWrapper ftpclient = new FTPClientWrapper(ftpserver, ftpname, ftppass);
-                    System.out.println("["+ID+"]Uploading...");
+                    logger.info("["+ID+"]Uploading...");
                     ftpclient.uploadFromStringWithTimeout(finalpath,  result, FTP_TIMEOUT);
                     success = true;
                     ftpclient = null;
                 }catch(ConnectException ce){
-                    System.out.println("["+ID+"]Non reachability to FTP server...");
+                    logger.info("["+ID+"]Non reachability to FTP server...");
                 }catch(Exception e){
                     FTPClientWrapper ftpclient = new FTPClientWrapper(ftpserver, ftpname, ftppass);
                     try{
-                        System.out.println("["+ID+"]Mini-non-folder-failure. Creating folder and uploading...");
+                        logger.info("["+ID+"]Mini-non-folder-failure. Creating folder and uploading...");
                         ftpclient.forceCreationOfPathWithTimeout(finalpath, FTP_TIMEOUT);
                         ftpclient.uploadFromStringWithTimeout(finalpath,  result, FTP_TIMEOUT);
                         success = true;
                     }catch(Exception ee){
-                        System.out.println("["+ID+"]Attemp failure: '" + ee.getMessage() + "'.");
+                        logger.info("["+ID+"]Attemp failure: '" + ee.getMessage() + "'.");
                     }
                 }
                 if (success == true){
                     general_success = true;
                     break;
                 }else{
-                    System.out.println("["+ID+"]Failed the upload " + (i+1) + "/" + attemps + ". Retrying in a moment...");
+                    logger.info("["+ID+"]Failed the upload " + (i+1) + "/" + attemps + ". Retrying in a moment...");
                     Thread.sleep(60 * 1000);
                 }
             }
@@ -175,9 +177,9 @@ public class MechanicalPingerAndUploader extends Thread implements MeasurementRe
                 throw new Exception("["+ID+"]Failed all the attemps.");
             }
 
-            System.out.println("["+ID+"]Results uploaded to '" + finalpath + "'.");
+            logger.info("["+ID+"]Results uploaded to '" + finalpath + "'.");
         }catch(Throwable e){
-            System.out.println("["+ID+"]Couldn't upload results of '" + finalpath + "' ('"+e.getMessage()+"').");
+            logger.info("["+ID+"]Couldn't upload results of '" + finalpath + "' ('"+e.getMessage()+"').");
             e.printStackTrace();
         }
         System.gc();

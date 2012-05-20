@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
+import org.apache.log4j.Logger;
 import org.inria.acqua.misc.FTPClientWrapper;
 import org.inria.acqua.mjmisc.Misc;
 import org.inria.acqua.mjmisc.MiscIP;
@@ -14,7 +15,7 @@ import org.inria.acqua.realtimer.RealtimeTask;
 
 
 public class PlanetlabPingerModule implements RealtimeNotifiable{
-
+	private static Logger logger = Logger.getLogger(PlanetlabPingerModule.class.getName()); 
     private String FTPServerName;
     private int periodOfCampaign = -1;
     
@@ -40,7 +41,7 @@ public class PlanetlabPingerModule implements RealtimeNotifiable{
         setDynamic_myRandomInt((new Random()).nextInt(getDynamic_myLimitRandomInt()));
 
 
-        System.out.println("Random integer: " + getDynamic_myRandomInt() + "(maximum is " + getDynamic_myLimitRandomInt() + ").");
+        logger.info("Random integer: " + getDynamic_myRandomInt() + "(maximum is " + getDynamic_myLimitRandomInt() + ").");
         /*  Read configuration file.
             This should contain
                 FTP server
@@ -85,7 +86,7 @@ public class PlanetlabPingerModule implements RealtimeNotifiable{
     public boolean executeAndCheckIfStops() throws Exception {
 
         if (Thread.activeCount() > 100){
-            System.out.println("More than 100 active threads. Killing for safeness of the Planetlab node...");
+            logger.info("More than 100 active threads. Killing for safeness of the Planetlab node...");
             System.exit(-1);
         }
         
@@ -99,7 +100,7 @@ public class PlanetlabPingerModule implements RealtimeNotifiable{
         }
 
         Calendar calendarnow_corrected = calendarnow;
-        System.out.println("\n*** Cycle started: '" + Misc.calendarToString(calendarnow) + "', pingers started ("+Thread.activeCount()+" threads)...");
+        logger.info("\n*** Cycle started: '" + Misc.calendarToString(calendarnow) + "', pingers started ("+Thread.activeCount()+" threads)...");
 
         /*
             In each periodic execution...;
@@ -119,9 +120,9 @@ public class PlanetlabPingerModule implements RealtimeNotifiable{
             difference = calendarnow.getTimeInMillis() - previous.getTimeInMillis();
             /* The difference should be exactly 1000ms*60 */
             if (difference > 60*1000 + 15*1000 || difference < 60*1000 - 15*1000){
-                System.out.println("++Strange difference of: " + difference + " now:" + Misc.calendarToString(calendarnow) + " previous:" + Misc.calendarToString(previous));
+                logger.info("++Strange difference of: " + difference + " now:" + Misc.calendarToString(calendarnow) + " previous:" + Misc.calendarToString(previous));
             }else{
-                System.out.println("Real time diff: " + difference);
+                logger.info("Real time diff: " + difference);
             }
             Misc.appendToFile("difference.txt", calendarnow.getTimeInMillis() + "\n");
 
@@ -133,7 +134,7 @@ public class PlanetlabPingerModule implements RealtimeNotifiable{
 
         previous = calendarnow_corrected;
 
-        System.out.println("Current subscriptions ("+getSubscriptionNames().size()+"): " + 
+        logger.info("Current subscriptions ("+getSubscriptionNames().size()+"): " + 
                 Misc.collectionToString(getSubscriptionNames()));
 
         for(Subscription subs: getSubscriptionNames()){    
@@ -151,7 +152,7 @@ public class PlanetlabPingerModule implements RealtimeNotifiable{
     private void updateLocalParameters(){
         Runnable r = new Runnable(){
             public void run(){
-                System.out.println("\t*** Loading subscriptions and configuration from server...");
+                logger.info("\t*** Loading subscriptions and configuration from server...");
                 try{
                     setCurrentLocalIP(MiscIP.getPublicIPAddress());
 
@@ -162,7 +163,7 @@ public class PlanetlabPingerModule implements RealtimeNotifiable{
                     ArrayList<String> lines = Misc.filterEmptyLines(Misc.getLines(raw));
                     loadExecutionParameters(lines);
                     setSubscriptionNames(Subscription.parseMany(lines));
-                    System.out.println("\tCurrent subscriptions ("+getSubscriptionNames().size()+"): " + Misc.collectionToString(getSubscriptionNames()));
+                    logger.info("\tCurrent subscriptions ("+getSubscriptionNames().size()+"): " + Misc.collectionToString(getSubscriptionNames()));
                 }catch(Exception e){
                     e.printStackTrace();
                 }
@@ -178,24 +179,24 @@ public class PlanetlabPingerModule implements RealtimeNotifiable{
                 String sections[] = s.split(" ");
                 if (sections[0].equals("*ping_timeout")){
                     setDynamic_pingTimeout(Integer.parseInt(sections[1]));
-                    System.out.println("\tPing Timeout updated: " + getDynamic_pingTimeout());
+                    logger.info("\tPing Timeout updated: " + getDynamic_pingTimeout());
                 }else if(sections[0].equals("*ping_packet_size_bytes")){
                     setDynamic_sizeOfPingPacket(Integer.parseInt(sections[1]));
-                    System.out.println("\tPing packet size updated: " + getDynamic_sizeOfPingPacket());
+                    logger.info("\tPing packet size updated: " + getDynamic_sizeOfPingPacket());
                 }else if(sections[0].equals("*pings_per_campaign")){
                     setDynamic_pingsPerCampaign(Integer.parseInt(sections[1]));
-                    System.out.println("\tPings per campaign updated: " + getDynamic_pingsPerCampaign());
+                    logger.info("\tPings per campaign updated: " + getDynamic_pingsPerCampaign());
                 }else if(sections[0].equals("*input_id")){
                     setDynamic_inputID(Integer.parseInt(sections[1]));
-                    System.out.println("\tInput ID updated: " + getDynamic_inputID());
+                    logger.info("\tInput ID updated: " + getDynamic_inputID());
                 }else if(sections[0].equals("*parameters_refresh_in_minutes")){
                     setDynamic_myLimitRandomInt(Integer.parseInt(sections[1]));
                     setDynamic_myRandomInt((new Random()).nextInt(getDynamic_myLimitRandomInt()));
-                    System.out.println("\tParameters refresh period (minutes) updated: " + getDynamic_myLimitRandomInt());
-                    System.out.println("\tNew random int generated: " + getDynamic_myRandomInt());
+                    logger.info("\tParameters refresh period (minutes) updated: " + getDynamic_myLimitRandomInt());
+                    logger.info("\tNew random int generated: " + getDynamic_myRandomInt());
 
                 }else if(sections[0].equals("*finalize")){
-                    System.out.println("\tFINISHED.");
+                    logger.info("\tFINISHED.");
                     System.exit(0);
 
 
@@ -204,7 +205,7 @@ public class PlanetlabPingerModule implements RealtimeNotifiable{
                 }else if(sections[0].startsWith("*") == false){
                     // It is a client.
                 }else{
-                    System.out.println("\tUnknown option '" + sections[0] + "'.");
+                    logger.info("\tUnknown option '" + sections[0] + "'.");
                 }
             }catch(Exception e){
                 e.printStackTrace();

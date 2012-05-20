@@ -76,7 +76,7 @@ public class Main{
 			// We do the log4j configuration on the fly. 
 			Properties properties = getSilentLoggingProperties();
 			PropertyConfigurator.configure(properties);
-		}
+		 	  	}
 	}
 
 
@@ -86,7 +86,7 @@ public class Main{
         CmdLineParser parser = new CmdLineParser();
         CmdLineParser.Option pconfig = parser.addStringOption('f', "config-file");
         
-        CmdLineParser.Option pdebug = parser.addIntegerOption('d', "debug");
+        CmdLineParser.Option pdebug = parser.addIntegerOption('v', "debug");
         CmdLineParser.Option plogfile = parser.addStringOption('l', "log-file");
 
         CmdLineParser.Option pgraphical = parser.addBooleanOption('g', "graphical");

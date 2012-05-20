@@ -43,7 +43,7 @@ public class GatewayChecker implements Pipelineable{
     }
 
     private void print(String str){
-        System.out.println(str);
+        logger.info(str);
     }
 
     private boolean thisIsAnomaly(int anomaly){

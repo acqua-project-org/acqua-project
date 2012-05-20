@@ -107,24 +107,24 @@ public class Misc {
         landm.add("A");
 
         if(Misc.areThereEqualElements(landm)!=null){
-            System.out.println("Hay iguales.");
+            logger.info("Hay iguales.");
         }else{
-            System.out.println("Todos diferentes.");
+            logger.info("Todos diferentes.");
         }
 
-        System.out.println("BEFORE");
+        logger.info("BEFORE");
         for(String s: landm){
-            System.out.print(" " + s);
+            logger.info(" " + s);
         }
-        System.out.println("");
+        logger.info("");
         
         landm = Misc.removeRepeated(landm);
 
-        System.out.println("AFTER");
+        logger.info("AFTER");
         for(String s: landm){
-            System.out.print(" " + s);
+            logger.info(" " + s);
         }
-        System.out.println("");
+        logger.info("");
     }
 
     public static ProcessOutput executeCallGetOutput(String command, String arguments) throws IOException{
@@ -146,7 +146,7 @@ public class Misc {
         while ((line = input.readLine()) != null){
             output = output + line + "\n";
             if (printStdout == true){
-                System.out.println(line);
+                logger.info(line);
             }
         }
 
@@ -267,7 +267,7 @@ public class Misc {
 
 //            output = output + "Output (stdout):\n";
 //            while ((line = input.readLine()) != null){
-//                System.out.println(line);
+//                logger.info(line);
 //                output = output + line + "\n";
 //            }
 //            output = output + "\nError Output (stderr):\n";
@@ -283,7 +283,7 @@ public class Misc {
                         String line;
                         try {
                             while ((line = input.readLine()) != null) {
-                                System.out.println(line);
+                                logger.info(line);
                                 output_stdout.append(line + "\n");
                             }
                         } catch (IOException ex) {
@@ -301,7 +301,7 @@ public class Misc {
                         String line;
                         try {
                             while ((line = err.readLine()) != null) {
-                                System.out.println(line);
+                                logger.info(line);
                                 output_stderr.append(line + "\n");
                             }
                         } catch (IOException ex) {
@@ -364,7 +364,7 @@ public class Misc {
             new BufferedReader (new InputStreamReader(p.getInputStream()));
 
         while ((line = input.readLine()) != null){
-            System.out.println(line);
+            logger.info(line);
         }
 
         p.waitFor();
@@ -497,9 +497,9 @@ public class Misc {
     public static void deleteFile(String filename) throws Exception{
         File file = new File(filename);
         if(file.delete()){
-            System.out.println("File '" + filename + "' deleted.");
+            logger.info("File '" + filename + "' deleted.");
         }else{
-            System.out.println("Error deleting file '" + filename + "'...");
+            logger.warn("Error deleting file '" + filename + "'...");
         }
 
     }
@@ -510,9 +510,9 @@ public class Misc {
         ArrayList<File> files = Misc.getListOfFiles(extension, tool_path);
         for (File f: files){
             if(f.delete()){
-                System.out.println("File '" + f.getPath() + "' deleted.");
+                logger.info("File '" + f.getPath() + "' deleted.");
             }else{
-                System.out.println("Error deleting file '" + f.getPath() + "'...");
+                logger.warn("Error deleting file '" + f.getPath() + "'...");
             }
         }
     }
@@ -729,9 +729,9 @@ public static ArrayList<File> getListOfFilesEndingWith(String ending, String too
             Date d = new Date();
             Calendar page_init = Misc.getUniversalTimeWithInternet(); /* Zone UTC. */
             timeDifference_hereminusthere = here_init.getTimeInMillis() - page_init.getTimeInMillis();
-            System.out.println("[Misc] Obtained Universal time (page): '" + calendarToString(page_init) + "' ("+ page_init.getTimeInMillis()+").");
-            System.out.println("[Misc] Obtained local time:            '" + calendarToString(here_init) + "' ("+here_init.getTimeInMillis()+").");
-            System.out.println("[Misc] Difference (here-page): '" + timeDifference_hereminusthere + "'.");
+            logger.info("[Misc] Obtained Universal time (page): '" + calendarToString(page_init) + "' ("+ page_init.getTimeInMillis()+").");
+            logger.info("[Misc] Obtained local time:            '" + calendarToString(here_init) + "' ("+here_init.getTimeInMillis()+").");
+            logger.info("[Misc] Difference (here-page): '" + timeDifference_hereminusthere + "'.");
         }
 
         /* Note that when changing TimeInMillis & TimeZone, the order does matter. */

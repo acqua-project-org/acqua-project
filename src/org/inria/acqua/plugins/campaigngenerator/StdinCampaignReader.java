@@ -53,17 +53,21 @@ public class StdinCampaignReader implements Pipelineable{
         // json element read and the definition of JsonDumpleableFlowElement. 
         if (str != null){
         	logger.info("Obtained string: '" + str + "'.");
-            JsonDumpeableFlowElement fe2 = gson.fromJson(str, JsonDumpeableFlowElement.class);
-            // Now that the JsonDumpleableFlowElement has in its fields all the information
-            // about the campaign, we process it a bit to obtain a standard FlowElement. 
-            FlowElement fe3 = fe2.dumpToFlowElement();
+        	try{
+	            JsonDumpeableFlowElement fe2 = gson.fromJson(str, JsonDumpeableFlowElement.class);
+	            // Now that the JsonDumpleableFlowElement has in its fields all the information
+	            // about the campaign, we process it a bit to obtain a standard FlowElement. 
+	            FlowElement fe3 = fe2.dumpToFlowElement();
             
-            fe3.put(PipDefs.FE_ANOMALY_DETECTOR_PARAM1, fe.get(PipDefs.FE_ANOMALY_DETECTOR_PARAM1));
+	            fe3.put(PipDefs.FE_ANOMALY_DETECTOR_PARAM1, fe.get(PipDefs.FE_ANOMALY_DETECTOR_PARAM1));
 
-            // Put this flow element in the next pipeline element. 
-            for (Pipelineable p: sinks){
-                p.insertFlowElement(fe3, PipDefs.SIGN_PINGGEN);
-            }
+	            // Put this flow element in the next pipeline element. 
+	            for (Pipelineable p: sinks){
+	                p.insertFlowElement(fe3, PipDefs.SIGN_PINGGEN);
+	            }
+        	}catch(Exception e){
+        		logger.warn("Problem while parsing json object: " + e.getMessage());
+        	}
         }
     }
 

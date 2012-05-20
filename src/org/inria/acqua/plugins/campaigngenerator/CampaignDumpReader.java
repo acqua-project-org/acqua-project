@@ -21,6 +21,7 @@ import org.inria.acqua.plugins.anomalydetector.AnomalyDetectorBernoulli;
 
 
 public class CampaignDumpReader implements Pipelineable{
+	private static Logger logger = Logger.getLogger(CampaignDumpReader.class.getName()); 
     private String dumpFilename;
     private ArrayList<Pipelineable> sinks;
     private Gson gson;
@@ -65,12 +66,12 @@ public class CampaignDumpReader implements Pipelineable{
                 
                 if (deleteLandmarks.exists()){
                     landmarksToDelete = new ArrayList<Landmark>();
-                    System.out.println("[CampaignDumpReader] Deleting some landmarks...");        
+                    logger.info("[CampaignDumpReader] Deleting some landmarks...");        
                     ArrayList<String> ltd = Misc.filterEmptyLines(Misc.getLines(Misc.readAllFile(deleteLandmarks.getAbsolutePath())));
                     deleteGateway = ltd.contains("gateway");
                     if (deleteGateway){
                         ltd.remove("gateway");
-                        System.out.println("[CampaignDumpReader] Deleting gateway...");
+                        logger.info("[CampaignDumpReader] Deleting gateway...");
                     }
 
                     for (String ltd_string: ltd){
@@ -91,7 +92,7 @@ public class CampaignDumpReader implements Pipelineable{
             firstFlowElement = false;
 
             fe3.put(PipDefs.FE_ANOMALY_DETECTOR_PARAM1, fe.get(PipDefs.FE_ANOMALY_DETECTOR_PARAM1));
-            //System.out.println("NUEVO ELEMENTO PARA METER EL SIGNIFICANCE LEVEL EN EL FLOWELEMENT");
+            //logger.info("NUEVO ELEMENTO PARA METER EL SIGNIFICANCE LEVEL EN EL FLOWELEMENT");
             
 
             for (Pipelineable p: sinks){

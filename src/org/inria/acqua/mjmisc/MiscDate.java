@@ -17,14 +17,4 @@ public class MiscDate {
         return formatter.parse(str);
     }
 
-    public static void main(String args[]) throws ParseException{
-        Date now = Calendar.getInstance().getTime();
-
-        String str = MiscDate.generateHumanReadableString(now);
-        System.out.println("Generated string ini: " + str + " is " + now.getTime());
-        Date later = MiscDate.parseHumanReadableString(str);
-        str = MiscDate.generateHumanReadableString(later);
-        System.out.println("Generated string lat: " + str);
-    }
-
 }

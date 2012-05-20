@@ -129,11 +129,11 @@ public class CommandLineWindow extends javax.swing.JFrame {
             updateCommandLine();
         }
 
-//        System.out.println("current command: " + currentCommand + "\nCommands: ");
+//        logger.info("current command: " + currentCommand + "\nCommands: ");
 //        for(String str:commandsList){
 //            System.out.print(str + " ");
 //        }
-//        System.out.println("\n Key: " + evt.getKeyCode());
+//        logger.info("\n Key: " + evt.getKeyCode());
 
     }//GEN-LAST:event_commandLineTextBoxKeyPressed
 

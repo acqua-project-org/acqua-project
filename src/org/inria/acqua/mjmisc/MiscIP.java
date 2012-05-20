@@ -7,10 +7,12 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
 import org.inria.acqua.mjmisc.exceptions.OSNotSupportedException;
 
 
 public class MiscIP {
+	private static Logger logger = Logger.getLogger(MiscIP.class.getName()); 
     private static Pattern IP_CHECKER_REGEX = Pattern.compile("(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})");
     public static final String IP_KEY = "pip";
     public static final String EMPTY = "empty";
@@ -33,7 +35,7 @@ public class MiscIP {
             shuc.setDoOutput(true);
 //            shuc.setDoInput(true);
 //            shuc.setFollowRedirects(true);
-//            System.out.println("Connection Code--------->" + shuc.getResponseCode());
+//            logger.info("Connection Code--------->" + shuc.getResponseCode());
 //
 //
 //
@@ -41,14 +43,14 @@ public class MiscIP {
 //            String str = in.readLine();
 //            while(str != null)
 //            {
-//                System.out.println("DATA From Https Server------>" + str);
+//                logger.info("DATA From Https Server------>" + str);
 //                str = in.readLine();
 //            }
 
             OutputStreamWriter out = new OutputStreamWriter(shuc.getOutputStream());
             out.write("auth_user=civ&auth_pass=civ&redirurl=&accept=Continue");
             out.flush();	out.close();
-            System.out.println("Data Are Written Successfully.......");
+            logger.info("Data Are Written Successfully.......");
         }
         catch(Exception e)
         {
@@ -203,7 +205,7 @@ public class MiscIP {
         String result_both = "";
         String result_alone = "";
         for (String name:names){
-            System.out.println("\t\tCurrent: " + name);
+            logger.info("\t\tCurrent: " + name);
             try{
                 float ping1 = MiscIP.ping(name, 3, 56);
                 float ping2 = MiscIP.ping(name, 3, 56);
@@ -217,7 +219,7 @@ public class MiscIP {
                 result_both = result_both + (ip + "\t" + name + "\n");
                 result_alone = result_alone + (ip + "\n");
             }catch(Exception e){
-                System.out.println("'" + name + "' was not solvable or pingable.");
+                logger.info("'" + name + "' was not solvable or pingable.");
             }
 
         }
@@ -235,14 +237,14 @@ public class MiscIP {
         //MiscIP.getPublicIPAddress();
         String str;
         str = "12.12.12.12";
-        System.out.println(str);
+        logger.info(str);
         str = MiscIP.checkIP(str);
-        System.out.println(str);
+        logger.info(str);
 
     }
 */
     public static void print(String str){
-        System.out.println(str);
+        logger.info(str);
     }
 
     public static HashMap<String, Object> getIPInformation() throws Exception{
@@ -262,41 +264,41 @@ public class MiscIP {
             ret.put("lat", EMPTY);
             ret.put("lon", EMPTY);
             String exx = "Could not parse latitude/longitude from " + debuginfo + ".";
-            System.out.println(exx);
+            logger.info(exx);
             //throw new Exception(str);
 
         }
         
         m = Pattern.compile("<span id=\"Livedemo1_lblIpAddress\" class=\"fontgraysmall\">([0-9.]{7,15})</span>").matcher(htmloutput);
         if(m.find()){
-            //System.out.println("\tOne match: " + m.group(1));
+            //logger.info("\tOne match: " + m.group(1));
             ret.put(IP_KEY, m.group(1));
         }else{
             ret.put(IP_KEY, EMPTY);
             String exx = "Could not parse public IP from " + debuginfo + ".";
-            System.out.println(exx);
+            logger.info(exx);
             //throw new Exception(exx);
         }
         
         m = Pattern.compile("<span id=\"Livedemo1_lblISP\" class=\"fontgraysmall\">(.*?)</span>").matcher(htmloutput);
         if(m.find()){
-            //System.out.println("\tOne match: " + m.group(1));
+            //logger.info("\tOne match: " + m.group(1));
             ret.put("isp", m.group(1));
         }else{
             ret.put("isp", EMPTY);
             String exx = "Could not parse ISP from " + debuginfo + ".";
-            System.out.println(exx);
+            logger.info(exx);
             //throw new Exception(exx);
         }
 
         m = Pattern.compile("<span id=\"Livedemo1_lblLocation\" class=\"fontgraysmall\">(.*?)</span>").matcher(htmloutput);
         if(m.find()){
-            //System.out.println("\tOne match: " + m.group(1));
+            //logger.info("\tOne match: " + m.group(1));
             ret.put("loc", m.group(1));
         }else{
             ret.put("loc", EMPTY);
             String exx = "Could not parse location from " + debuginfo + ".";
-            System.out.println(exx);
+            logger.info(exx);
             //throw new Exception(exx);
         }
 
@@ -313,59 +315,59 @@ public class MiscIP {
 
         m = Pattern.compile("<br><b>My IP Address Latitude</b>: \\(([0-9.]+)\\)<br><b>My IP Address Longtitude</b>: \\(([0-9.]+)\\)<br>").matcher(str);
         if(m.find()){
-            System.out.println("\tOne match: " + m.group(1));
-            System.out.println("\tOne match: " + m.group(2));
+            logger.info("\tOne match: " + m.group(1));
+            logger.info("\tOne match: " + m.group(2));
             ret.put("lat", new Float(m.group(1)));
             ret.put("lon", new Float(m.group(2)));
         }else{
             ret.put("lat", EMPTY);
             ret.put("lon", EMPTY);
             String exx = "Could not parse latitude/longitude from '" + urlName + "'.";
-            System.out.println(exx);
+            logger.info(exx);
             //throw new Exception(exx);
         }
 
         m = Pattern.compile("<strong>My IP Address lookup</strong> for <b>([0-9.]{7,15})</b>").matcher(str);
         if(m.find()){
-            System.out.println("\tOne match: " + m.group(1));
+            logger.info("\tOne match: " + m.group(1));
             ret.put(IP_KEY, m.group(1));
         }else{
             String exx = "Could not parse public IP from '" + urlName + "'.";
             ret.put(IP_KEY, EMPTY);
-            System.out.println(exx);
+            logger.info(exx);
             //throw new Exception(exx);
         }
 
         m = Pattern.compile("<br><strong>My ISP \\(Internet Service Provider\\)</strong>:&nbsp;<font color='#980000'> (\\w+)</font><br />").matcher(str);
         if(m.find()){
-            System.out.println("\tOne match: " + m.group(1));
+            logger.info("\tOne match: " + m.group(1));
             ret.put("isp", m.group(1));
         }else{
             String exx = "Could not parse ISP from '" + urlName + "'.";
             ret.put("isp", EMPTY);
-            System.out.println(exx);
+            logger.info(exx);
             //throw new Exception(exx);
         }
 
         m = Pattern.compile("<br><b>My IP Address City</b>[:&nbsp;<>0-9a-zA-Z=#' ]+>(\\w+)</font>").matcher(str);
         if(m.find()){
-            System.out.println("\tOne match: " + m.group(1));
+            logger.info("\tOne match: " + m.group(1));
             ret.put("loc", m.group(1));
         }else{
             String exx = "Could not parse location from '" + urlName + "'.";
             ret.put("loc", EMPTY);
-            System.out.println(exx);
+            logger.info(exx);
             //throw new Exception(exx);
         }
 
         m = Pattern.compile("<b>My IP Country Name</b>[:&nbsp;&nbsp;<>a-z ='#0-9]+> (\\w+)</font>").matcher(str);
         if(m.find()){
-            System.out.println("\tOne match: " + m.group(1));
+            logger.info("\tOne match: " + m.group(1));
             ret.put("coun", m.group(1));
         }else{
             String exx = "Could not parse country from '" + urlName + "'.";
             ret.put("coun", EMPTY);
-            System.out.println(exx);
+            logger.info(exx);
             //throw new Exception(exx);
         }
         

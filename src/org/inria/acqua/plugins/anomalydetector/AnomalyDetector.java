@@ -107,6 +107,10 @@ public class AnomalyDetector implements Pipelineable{
         }
     }
 
+    private void print(String str){
+    	logger.info(str);
+    }
+    
     private synchronized void takeSnapshotAsNormalNow() throws Exception{
         float stdRTT;
         int validHistNumber;
@@ -247,7 +251,7 @@ public class AnomalyDetector implements Pipelineable{
                 sink.insertFlowElement(output,PipDefs.SIGN_ANDETLAN+this.landmark);
             }
         }else{
-            System.err.println("There is no sink connected.");
+            print("There is no sink connected.");
         }
 
         if (boundsUninitialized && generalCounter == 10){
@@ -257,10 +261,6 @@ public class AnomalyDetector implements Pipelineable{
 
     }
 
-    private void print(String pr){
-        System.out.println(pr);
-    }
-    
     private boolean includeMeasInAvgStd(int anomaly){
         return ((anomaly==GeneralAnomalyDetector.ST_NORMAL) ||
                 (anomaly==GeneralAnomalyDetector.ST_ABNORMAL_SHIFT));

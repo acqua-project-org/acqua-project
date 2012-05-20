@@ -11,15 +11,24 @@ import org.inria.acqua.plugins.FlowElement;
 import org.inria.acqua.plugins.PipDefs;
 import org.inria.acqua.plugins.Pipelineable;
 
+import com.google.gson.Gson;
+
 
 public class IFDumper implements Pipelineable{
     private String ifeSummaryFilename;
     private ArrayList<Pipelineable> sinks;
     private long counter = 0;
+    private boolean stdout; 
+	private Gson gson = new Gson();
 
     public IFDumper(String filename){
+    	this(filename, false);
+    }
+    
+    public IFDumper(String filename, boolean stdout){
         this.ifeSummaryFilename = filename;
         sinks = new ArrayList<Pipelineable> ();
+        this.stdout = stdout;
         try {
             Misc.deleteFile(ifeSummaryFilename);
         } catch (Exception ex) {
@@ -47,7 +56,10 @@ public class IFDumper implements Pipelineable{
             String str = String.format(Locale.ENGLISH, "%d\t%f\t%f\t%f\t%f\n", counter++, ife, unr, rtt, shi);
 
             Misc.appendToFile(ifeSummaryFilename, str);
-            
+            if (stdout){
+            	String tojson = gson.toJson(fe);
+            	System.out.println(tojson);
+            } 
 
         }else{
             throw new PipelineException("Signature not supported: '" + signature + "'.");

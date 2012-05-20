@@ -6,17 +6,14 @@
         <!-- Timeout (in seconds) for the pings. -->
         <timeout value="3"/>
         <!-- Number of pings per campain (per landmark). -->
-        <number_of_pings value="3"/>
+        <number_of_pings value="2"/>
         <!-- Landmarks to analyze. -->
-        <landmarks>209.85.229.104
-72.52.194.60
-200.221.138.63
-202.218.0.99</landmarks>
+        <landmarks>www.google.com www.yahoo.com</landmarks>
         
         <!-- Path and name of the IFE tool. -->
         <ife_path_and_name/>
         <!-- Period of campains (in milliseconds). -->
-        <ife_execution_period value="1000"/>
+        <ife_execution_period value="9000"/>
         <!-- Amplitude of the anomaly (in milliseconds) to detect. -->
 		<anomaly_detection_parameter1 value="14.0"/>
         <!-- Lower index threshold to start judging as anomaly. Between 0 and 1. -->

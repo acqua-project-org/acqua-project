@@ -61,20 +61,4 @@ public class Timestamp {
         }
     }
 
-    public static void main(String args[]) throws ParseException, IllegalComparisonException{
-        Date now = new Date();
-        double time = (double)now.getTime();
-        //System.out.printf("%9.9f\n", (double)time);
-        System.out.printf("%1.3f\n", (double)time/1000.0f);
-        Timestamp bydate = new Timestamp(now);
-        System.out.println(bydate.toHumanReadableString());
-        System.out.println(bydate);
-        String str = bydate.toString();
-        Timestamp bysec = new Timestamp(str);
-        System.out.println(bysec.toHumanReadableString());
-        System.out.println(bysec);
-        
-    }
-
-
 }

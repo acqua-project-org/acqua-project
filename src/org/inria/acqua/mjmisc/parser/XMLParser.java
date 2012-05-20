@@ -132,7 +132,6 @@ public class XMLParser {
                     "/ACQUA_CONFIG_FILE/significance_level/@value"
                 );
         String res = node.getNodeValue();
-        System.out.println(res);
         node.setNodeValue("995");
         xmlp.writeXML();
         

@@ -130,10 +130,8 @@ public class AnomalyDetectorBernoulli implements Pipelineable{
                 if ((medianRTTValue < dcReferenceOfTraining - optimalEpsilon)
                         || (medianRTTValue > dcReferenceOfTraining + optimalEpsilon)){
                     rttAvgHistoryRareness.insert(1); /* Rare sample. */
-                    //print("YES, IT IS RARE!");
                 }else{
                     rttAvgHistoryRareness.insert(0); /* Non-rare sample. */
-                    //print("NO");
                 }
 
                 /* Done the */
@@ -351,6 +349,10 @@ public class AnomalyDetectorBernoulli implements Pipelineable{
         }
     }
 
+    private void print(String str){
+    	logger.info(str);
+    }
+    
     private void checkIfWeShouldTakeASnapshot() throws Exception{
         //if (myCounter % (2*60) == 0){
         //    print("[AnomalyDetectorRawHi...] Counter " + myCounter);
@@ -459,12 +461,6 @@ public class AnomalyDetectorBernoulli implements Pipelineable{
         }
         return output;
     }
-
-    
-    private void print(String pr){
-        System.out.println(pr);
-    }
-
 
     public static int getLandmarkIndex(FlowElement fe, Landmark landm) throws Exception{
         ArrayList<Landmark> landmark_list = (ArrayList<Landmark>) fe.get(PipDefs.FE_LANDMARKS_LIST);

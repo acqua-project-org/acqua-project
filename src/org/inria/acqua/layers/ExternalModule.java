@@ -143,10 +143,10 @@ public class ExternalModule implements Pipelineable, RealtimeNotifiable{
             numberOfLoops = (numberOfLoops>0?numberOfLoops-1:numberOfLoops);
             if (numberOfLoops==0){ /* Condition reached because of N looped executions. */
                 this.saveContentofChannelControllers(new File(sessionFileName));
-                System.out.println("Execution correct.");
+                logger.info("Execution correct.");
                 System.exit(0);
             }else if (numberOfLoops>0){
-                System.out.println("Step " + numberOfLoops + "...");
+                logger.info("Step " + numberOfLoops + "...");
             }
 
             try{
@@ -161,7 +161,7 @@ public class ExternalModule implements Pipelineable, RealtimeNotifiable{
                     stopAnyThread = true;
                 }
                 labelNotifierEmitter.showMessageInGUI(e.getMessage(), LabelNotifierReceptor.SERIOUSNESS_ERROR);
-                e.printStackTrace();
+                logger.warn(e.getMessage());
                 throw e;
             }
         }
@@ -258,9 +258,7 @@ public class ExternalModule implements Pipelineable, RealtimeNotifiable{
         try{
             Misc.deleteFilesFrom("log", tool_path);
         }catch(Exception e){
-            System.err.println("ERROR: Cannot prepare environment to run tool. Check the usage of .log files and release them.");
             logger.warn("Cannot prepare environment for the tool: " + e.getMessage());
-            e.printStackTrace();
             System.exit(-1);
         }
     }
@@ -271,7 +269,7 @@ public class ExternalModule implements Pipelineable, RealtimeNotifiable{
 
     public void insertFlowElement(FlowElement fe, String signature) throws Exception {
         if (counter++%300==0){
-            System.out.println("\t\t\t\t\t\t\t\tkeyword 1123443887\n");
+            logger.info("\t\t\t\t\t\t\t\tCycle multiple of 300 reached...");
         }
         //System.out.println("Needs to be corrected. 2 types of pipeline are managed on pipeline creator, there is no reason why to assume that all pipelines will end with an ifestimator, which is the assumption we're doing here while using IFEstimatorToCurveElement\n");
         if (historyData != null){
@@ -279,7 +277,7 @@ public class ExternalModule implements Pipelineable, RealtimeNotifiable{
                 IFEstimatorToCurveElement.addFlowElementToCurveElement(fe, historyData.getCurveElements());
                 this.notifyChanges(historyData);
             }catch(Exception e){
-                e.printStackTrace();
+                logger.warn("Error inserting FlowElement: " + e.getMessage(), e);
             }
         }
     }

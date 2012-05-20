@@ -12,6 +12,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.SimpleTimeZone;
 
+import org.apache.log4j.Logger;
 import org.inria.acqua.layers.HistoryData;
 import org.inria.acqua.layers.painter.CurveElement;
 import org.inria.acqua.misc.Landmark;
@@ -36,6 +37,7 @@ import org.inria.acqua.plugins.ifestimator.IFEstimatorToCurveElement;
  * Creator of pipelines. 
  * Edit this class if you want acqua to support more Pipeline configurations. */
 public class PipelineCreator {
+	private static Logger logger = Logger.getLogger(PipelineCreator.class.getName()); 
     private Pipeline pipeline;
     private HistoryData historyDataValue = null;
     private FlowElement inputFlowElement = null;
@@ -366,7 +368,7 @@ public class PipelineCreator {
         IFEstimator ife = new IFEstimator();
         pipeline.add("ife", ife);
 
-        IFDumper ifdumper = new IFDumper("ifesummary.logger");
+        IFDumper ifdumper = new IFDumper("ifesummary.logger", true);
         pipeline.add("ifdump", ifdumper);
         
         // Concatenate the different elements of the pipeline. 
@@ -652,7 +654,7 @@ public class PipelineCreator {
     }
 
     private static void checkParameters(ArrayList<String> landmarks) throws Exception{
-        System.out.println("Checking parameters...");
+        logger.info("Checking parameters...");
         String rep;
         if((rep = Misc.areThereEqualElements(landmarks))!=null){
             throw new Exception("There are repeated IP adresses ("+rep+").");
@@ -668,6 +670,6 @@ public class PipelineCreator {
                 throw new Exception("Unreachable landmark: '" + l + "'.");
             }
         }
-        System.out.println("Done. " + landmarks.size() + " valid landmarks.");
+        logger.info("Done. " + landmarks.size() + " valid landmarks.");
     }
 }

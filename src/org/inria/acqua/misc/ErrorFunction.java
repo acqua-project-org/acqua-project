@@ -80,19 +80,4 @@ public class ErrorFunction {
         return 0.5 * (1.0 + erf(z / (Math.sqrt(2.0))));
     }
 
-
-
-   /*************************************************************************
-    *  Test client
-    *************************************************************************/
-    public static void main(String[] args) {
-        double x = Double.parseDouble(args[0]);
-
-        System.out.println("MyMath library");
-        System.out.println("erf(" + x + ")  = " + ErrorFunction.erf(x));
-        System.out.println("erf2(" + x + ") = " + ErrorFunction.erf2(x));
-        System.out.println("Phi(" + x + ")  = " + ErrorFunction.Phi(x));
-        System.out.println();
-    }
-
 }

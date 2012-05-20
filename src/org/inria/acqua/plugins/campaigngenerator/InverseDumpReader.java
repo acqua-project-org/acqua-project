@@ -4,6 +4,7 @@ package org.inria.acqua.plugins.campaigngenerator;
 import java.io.File;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
 import org.inria.acqua.exceptions.*;
 import org.inria.acqua.misc.Landmark;
 import org.inria.acqua.misc.Timestamp;
@@ -17,6 +18,7 @@ import org.inria.acqua.plugins.anomalydetector.AnomalyDetectorBernoulli;
 
 public class InverseDumpReader implements Pipelineable{
     
+	private static Logger logger = Logger.getLogger(InverseDumpReader.class.getName()); 
     private ArrayList<Pipelineable> sinks;
     private ArrayList<FEReader> fereaders;
     private ArrayList<File> coveredLandmarks;
@@ -32,14 +34,14 @@ public class InverseDumpReader implements Pipelineable{
         for(File landmFile: coveredLandmarks){ /* We go inside all of the landmarks. */
             /* We create a set of readers */
             try{ /* Try to use the valid files. If not valid, just discard it. */
-                System.out.println("Reading file: '" + landmFile + "'.");
+                logger.info("Reading file: '" + landmFile + "'.");
                 FEReader fr = new FEReader(landmFile);
                 fereaders.add(fr);
             }catch(Exception e){
-                System.out.println(e.getMessage());
+                logger.info(e.getMessage());
             }
         }
-        System.out.println(fereaders.size() + " valid files were loaded.");
+        logger.info(fereaders.size() + " valid files were loaded.");
         this.monitoredPoint = monitoredPoint;
     }
 

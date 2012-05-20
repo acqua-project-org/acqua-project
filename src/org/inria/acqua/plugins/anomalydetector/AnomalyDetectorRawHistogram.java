@@ -314,7 +314,7 @@ public class AnomalyDetectorRawHistogram implements Pipelineable{
 
         print(" VALUES ");
         for(Float f:goodSamples){
-            System.out.print("  " + f);
+            print("  " + f);
         }
         print(" VALUES \n");
 

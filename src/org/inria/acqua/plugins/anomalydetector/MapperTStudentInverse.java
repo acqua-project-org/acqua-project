@@ -36,20 +36,6 @@ public class MapperTStudentInverse {
         
     }
 
-    public static void main(String args[]) throws Exception {
-        Float sl;
-        Integer df;
-
-        sl = 0.95f; df = 10; System.out.printf("Got sl=%f df=%d z=%f\n",sl,df,MapperTStudentInverse.getZFromTStudent(sl, df));
-        sl = 0.95f; df = 10; System.out.printf("Got sl=%f df=%d z=%f\n",sl,df,MapperTStudentInverse.getZFromTStudent(sl, df));
-        sl = 0.99f; df = 11; System.out.printf("Got sl=%f df=%d z=%f\n",sl,df,MapperTStudentInverse.getZFromTStudent(sl, df));
-        sl = 0.98f; df = 10; System.out.printf("Got sl=%f df=%d z=%f\n",sl,df,MapperTStudentInverse.getZFromTStudent(sl, df));
-        sl = 0.95f; df = 10; System.out.printf("Got sl=%f df=%d z=%f\n",sl,df,MapperTStudentInverse.getZFromTStudent(sl, df));
-        sl = 0.95f; df = 10; System.out.printf("Got sl=%f df=%d z=%f\n",sl,df,MapperTStudentInverse.getZFromTStudent(sl, df));
-        sl = 0.99f; df = 10; System.out.printf("Got sl=%f df=%d z=%f\n",sl,df,MapperTStudentInverse.getZFromTStudent(sl, df));
-        sl = 0.999f; df = 11; System.out.printf("Got sl=%f df=%d z=%f\n",sl,df,MapperTStudentInverse.getZFromTStudent(sl, df));
-        
-    }
 
     private static void checkIfInitialized(){
 

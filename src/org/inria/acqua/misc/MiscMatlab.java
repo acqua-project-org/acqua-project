@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
 
-public class MiscMatlab {
+import org.apache.log4j.Logger;
 
+public class MiscMatlab {
+	private static Logger logger = Logger.getLogger(MiscMatlab.class.getName()); 
 
     public static ArrayList<Double> cloneArray(ArrayList<Double> values){
         return (ArrayList<Double>)values.clone();
@@ -216,15 +218,15 @@ public class MiscMatlab {
     }
 
     public static void printArray(ArrayList arr){
-        System.out.println(" " );
+        logger.info(" " );
         for(int i=0;i<Math.min(arr.size(),30);i++){
-            System.out.print(String.format(Locale.ENGLISH, "\t%1.2f", arr.get(i)));
+            logger.info(String.format(Locale.ENGLISH, "\t%1.2f", arr.get(i)));
         }
-        System.out.println(" ");
+        logger.info(" ");
     }
 
     public static synchronized void print(String r){
-        System.out.println(r);
+        logger.info(r);
     }
 
     

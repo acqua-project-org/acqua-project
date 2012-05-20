@@ -239,7 +239,6 @@ public class CurvePainter implements Painter{
 
 
         }catch(Exception e){
-           System.err.println("CurvePainter exception: " + e.getMessage());
            e.printStackTrace();
         }
     }

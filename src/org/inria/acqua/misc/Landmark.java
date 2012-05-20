@@ -115,23 +115,4 @@ public class Landmark {
     public String toString(){
         return (int)ip[0] + "." + (int)ip[1] + "." + (int)ip[2] + "." + (int)ip[3];
     }
-
-    public static void main(String args[]) throws Exception{
-        String landm;
-        
-        landm = "127.0.0.1";
-        System.out.println("Landm: " + landm + "\nlater: " + new Landmark(landm)+"\n");
-
-        landm = "199.0.0.1";
-        System.out.println("Landm: " + landm + "\nlater: " + new Landmark(landm)+"\n");
-
-        landm = "1.0.0.1";
-        System.out.println("Landm: " + landm + "\nlater: " + new Landmark(landm)+"\n");
-
-        landm = "256.0.0.1";
-        System.out.println("Landm: " + landm + "\nlater: " + new Landmark(landm)+"\n");
-
-        landm = "355.0.0.1";
-        System.out.println("Landm: " + landm + "\nlater: " + new Landmark(landm)+"\n");
-    }
 }

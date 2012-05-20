@@ -2,6 +2,7 @@ package org.inria.acqua.plugins.ifecontroller;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
 import org.inria.acqua.exceptions.PipelineException;
 import org.inria.acqua.exceptions.UnsupportedCommandException;
 import org.inria.acqua.misc.Landmark;
@@ -14,7 +15,7 @@ import org.inria.acqua.plugins.gatewaychecker.GatewayChecker;
 
 
 public class IFController implements Pipelineable{
-
+	private static Logger logger = Logger.getLogger(IFController.class.getName()); 
     public static final String COMMAND_NOTIFY_TO_USER = "command-notify-to-user";
     private static final float IFE_THRESHOLD = 0.6f;
     private ArrayList<Pipelineable> sinks;
@@ -30,7 +31,7 @@ public class IFController implements Pipelineable{
     }
 
     private void print(String str){
-        System.out.println(str);
+        logger.info(str);
     }
 
     public void insertFlowElement(FlowElement fe, String signature) throws Exception {

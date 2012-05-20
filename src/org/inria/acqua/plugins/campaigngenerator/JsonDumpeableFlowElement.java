@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
+import org.apache.log4j.Logger;
 import org.inria.acqua.misc.Landmark;
 import org.inria.acqua.misc.Timestamp;
 import org.inria.acqua.plugins.FlowElement;
@@ -13,6 +14,8 @@ import com.google.gson.Gson;
 
 
 public class JsonDumpeableFlowElement {
+	
+	private static Logger logger = Logger.getLogger(JsonDumpeableFlowElement.class.getName()); 
     private Landmark[] landmarks_list;
     private Integer count;
     private Integer timeout_ms;
@@ -78,11 +81,11 @@ public class JsonDumpeableFlowElement {
    
     public static void main(String args[]) throws Exception{
     	
-    	System.out.println("Preparing...");
+    	logger.info("Preparing...");
         Scanner stdin = new Scanner (System.in);
         String str; 
         while(stdin.hasNextLine()){
-        	System.out.println("Obtained: " + stdin.nextLine());
+        	logger.info("Obtained: " + stdin.nextLine());
         }
         
     	JsonDumpeableFlowElement a = new JsonDumpeableFlowElement();
@@ -105,7 +108,7 @@ public class JsonDumpeableFlowElement {
         a.T_camp_ms = 60000;
         a.input_id = 123456;
         Gson gson = new Gson();
-        System.out.println("JSON: " + gson.toJson(a));
-       // "{landmarks_list":[{"alias":"\u003cno alias\u003e","type":1,"ip":[127,0,0,2]},{"alias":"\u003cno alias\u003e","type":1,"ip":[127,0,0,3]}],"count":2,"timeout_ms":3000,"packet_size":56,"T_ping_ms":1000,"timestamp_pairs":[[[{"seconds":1.337357252124E9,"timeout":false},{"seconds":1.337357252125E9,"timeout":false}],[{"seconds":1.337357252125E9,"timeout":false},{"seconds":1.337357252125E9,"timeout":false}]],[[{"seconds":1.337357252125E9,"timeout":false},{"seconds":1.337357252125E9,"timeout":false}],[{"seconds":1.337357252125E9,"timeout":false},{"seconds":1.337357252125E9,"timeout":false}]]],"login_name":"mjost","ip_src":"127.0.0.1","T_camp_ms":60000,"input_id":123456} 
+        logger.info("JSON: " + gson.toJson(a));
+       // {"landmarks_list":[{"alias":"\u003cno alias\u003e","type":1,"ip":[127,0,0,2]},{"alias":"\u003cno alias\u003e","type":1,"ip":[127,0,0,3]}],"count":2,"timeout_ms":3000,"packet_size":56,"T_ping_ms":1000,"timestamp_pairs":[[[{"seconds":1.337357252124E9,"timeout":false},{"seconds":1.337357252125E9,"timeout":false}],[{"seconds":1.337357252125E9,"timeout":false},{"seconds":1.337357252125E9,"timeout":false}]],[[{"seconds":1.337357252125E9,"timeout":false},{"seconds":1.337357252125E9,"timeout":false}],[{"seconds":1.337357252125E9,"timeout":false},{"seconds":1.337357252125E9,"timeout":false}]]],"login_name":"mjost","ip_src":"127.0.0.1","T_camp_ms":60000,"input_id":123456} 
     }
 }

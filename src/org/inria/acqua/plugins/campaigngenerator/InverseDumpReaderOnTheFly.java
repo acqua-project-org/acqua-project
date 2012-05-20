@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
 import org.inria.acqua.exceptions.*;
 import org.inria.acqua.misc.FTPClientWrapper;
 import org.inria.acqua.misc.Landmark;
@@ -21,6 +22,7 @@ import org.inria.acqua.plugins.Pipelineable;
 
 public class InverseDumpReaderOnTheFly implements Pipelineable{
     
+	private static Logger logger = Logger.getLogger(InverseDumpReaderOnTheFly.class.getName()); 
     private ArrayList<Pipelineable> sinks;
     //private ArrayList<File> coveredLandmarks;
     private String monitoredPoint;
@@ -147,7 +149,7 @@ public class InverseDumpReaderOnTheFly implements Pipelineable{
         if (workingMode == MODE_READ_ALL_FROM){
             d = (Calendar)calendarFrom.clone();
             d.setTimeInMillis(d.getTimeInMillis() + cyclesCounter * 1000 * 60);
-            System.out.println("Reading " + Misc.calendarToString(d));
+            logger.info("Reading " + Misc.calendarToString(d));
             cyclesCounter++;
             Calendar now = Misc.getUniversalTimeMinus(minutesOfOffset);
             if (d.getTimeInMillis() + 1000 * 60 * 5 > now.getTimeInMillis()){
@@ -156,7 +158,7 @@ public class InverseDumpReaderOnTheFly implements Pipelineable{
         }else if(workingMode == MODE_READ_PERIODICALLY){
             d = Misc.getUniversalTimeMinus(minutesOfOffset);
         }else{
-            System.out.println("Not valid parameter for InverseDumpReaderOnTheFly.");
+            logger.info("Not valid parameter for InverseDumpReaderOnTheFly.");
             System.exit(0);
         }
 
@@ -188,7 +190,7 @@ public class InverseDumpReaderOnTheFly implements Pipelineable{
                     fileslist = ftpFileListToStringList(ourFTPclient.list(nowpath));
                     success = true;
                 }catch(Exception e){
-                    System.out.println("Failed while listing...");
+                    logger.info("Failed while listing...");
                     Thread.sleep(3 * 1000);
                 }
                 listing_counter++;
@@ -211,9 +213,9 @@ public class InverseDumpReaderOnTheFly implements Pipelineable{
 
 
         HashMap<Landmark, FlowElement> flowelements = new HashMap<Landmark,FlowElement>();
-        System.out.println("Reading path '" + nowpath + "'...");
+        logger.info("Reading path '" + nowpath + "'...");
         for(String f:fileslist){
-            //System.out.println("\t Reading '" + nowpath + File.separator + f + "'...");
+            //logger.info("\t Reading '" + nowpath + File.separator + f + "'...");
             FlowElement fe_real = null;
             try{
                 String content = null;
@@ -226,7 +228,7 @@ public class InverseDumpReaderOnTheFly implements Pipelineable{
                             content = ourFTPclient.downloadAsString(nowpath + "/" + f); /* Might fail downloading... */
                             success_now = true;
                         }catch(Exception e){
-                            System.out.println("Failed while getting file '"+nowpath+"/"+f+"':" + e.getMessage());
+                            logger.info("Failed while getting file '"+nowpath+"/"+f+"':" + e.getMessage());
                             Thread.sleep(3 * 1000);
                         }
                     }while (success_now == false);
@@ -246,11 +248,11 @@ public class InverseDumpReaderOnTheFly implements Pipelineable{
                 landm_list.add(landmark);
                 flowelements.put(landmark, fe_real);
             }catch(Exception r){
-                System.out.println("\t FAILED for '" + nowpath + "'...");
+                logger.warn("\t FAILED for '" + nowpath + "'...");
                 r.printStackTrace();
             }
         }
-        System.out.println("Done for (" + fileslist.length + ").");
+        logger.info("Done for (" + fileslist.length + ").");
 
         /* Who cares about WHAT is the set of landmarks exactly? Do we mind their names? */
         /* Yes, we care because we put the last sample of planetlab1.xx with the anomalyDetector of planetlab1.xx */

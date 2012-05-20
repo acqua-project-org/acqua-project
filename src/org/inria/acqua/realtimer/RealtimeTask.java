@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import org.apache.log4j.Logger;
 import org.inria.acqua.exceptions.NoMoreWorkException;
 import org.inria.acqua.forms.labelnotification.LabelNotifierEmitter;
 import org.inria.acqua.forms.labelnotification.LabelNotifierReceptor;
@@ -15,6 +16,7 @@ import org.inria.acqua.forms.labelnotification.LabelNotifierReceptor;
  * a task that executes IFE.
  */
 public class RealtimeTask extends Thread{
+	private static Logger logger = Logger.getLogger(RealtimeTask.class.getName()); 
     private RealtimeNotifiable notifiable;
     private boolean alive = false;
     private boolean done = false;
@@ -77,18 +79,18 @@ public class RealtimeTask extends Thread{
             executionCounter++;
 
             if (executionCounter%10==0){
-                System.out.println("[day no. "+ String.format(Locale.ENGLISH, "%f",(float)(((float)executionCounter*(float)periodMilliSeconds)/(24.0*60*60*1000)))+"][counter " + executionCounter + "]");
+                logger.info("[day no. "+ String.format(Locale.ENGLISH, "%f",(float)(((float)executionCounter*(float)periodMilliSeconds)/(24.0*60*60*1000)))+"][counter " + executionCounter + "]");
             }
             //currentms = Calendar.getInstance().getTimeInMillis();
             try{
                 /* This is to ensure that executions will START periodically. */
                 alive = alive && !notifiable.executeAndCheckIfStops();
             }catch(NoMoreWorkException r){ /* We stop (and kill this Realtimer). */
-                System.out.println(r);
+                logger.info(r);
                 alive = false;
             }catch(Exception e){ /* We do not stop. We show the problem but we continue. */
                 labelNotifierEmitter.showMessageInGUI(e.getMessage(), LabelNotifierReceptor.SERIOUSNESS_NOTIFICATION);
-                e.printStackTrace();
+                logger.warn(e.getMessage());
             }
             
 
@@ -112,30 +114,10 @@ public class RealtimeTask extends Thread{
                     }
                 } catch (Exception ex) {
                     labelNotifierEmitter.showMessageInGUI(ex.getMessage(), LabelNotifierReceptor.SERIOUSNESS_NOTIFICATION);
-                    ex.printStackTrace();
+                    logger.warn(ex.getMessage());
                 }
             }
         }
         done = true;
-    }
-
-    public static void main(String args[]) throws Exception{
-        TestRT not = new TestRT();
-        RealtimeTask rt = new RealtimeTask(not, 10000);
-        rt.start();
-        Thread.sleep(150000);
-    }
-}
-
-
-class TestRT implements RealtimeNotifiable{
-    private int counter = 0;
-    public boolean executeAndCheckIfStops() throws Exception {
-        System.out.println(new Date());
-        counter++;
-        if (counter<=2){
-            Thread.sleep(15000);
-        }
-        return false;
     }
 }

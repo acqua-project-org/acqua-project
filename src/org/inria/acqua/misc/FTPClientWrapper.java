@@ -4,7 +4,10 @@ import java.io.*;
 import java.util.Hashtable;
 import java.util.concurrent.TimeoutException;
 
+import org.apache.log4j.Logger;
+
 public class FTPClientWrapper {
+	private static Logger logger = Logger.getLogger(FTPClientWrapper.class.getName()); 
     //private FTPClient client;
     private static final boolean PASSIVE_MODE = true;
     private String server;
@@ -30,13 +33,9 @@ public class FTPClientWrapper {
         FTPClient client  = new FTPClient();
 
         try{
-            //System.out.println("\t\t1/4init-ftplow");
             client.connect(server);
-            //System.out.println("\t\t2/4conn-ftplow");
             client.login(user, pass);
-            //System.out.println("\t\t3/4logg-ftplow");
             client.setPassive(PASSIVE_MODE);
-            //System.out.println("\t\t4/4pass-ftplow");
         }catch(Exception e){
             this.done(client);
             throw e;
@@ -50,7 +49,7 @@ public class FTPClientWrapper {
             client.disconnect(true);
             //client.abruptlyCloseCommunication();
         }catch(Exception e){
-            //System.out.println("Failed while disconnecting from FTP server. Skipping...");
+            logger.warn("Failed while disconnecting from FTP server. Skipping...");
         }
     }
 
@@ -171,11 +170,8 @@ public class FTPClientWrapper {
         FTPClient client = null;
         try{
             client = getNewClient();
-            //System.out.println("\t\tb1/3crdy-ftplow");
             client.upload(path , is, 0, 0, null);
-            //System.out.println("\t\tb2/3upld-ftplow");
             this.done(client);
-            //System.out.println("\t\tb3/3dall-ftplow");
         }catch(Exception e){
             this.done(client);
             throw e;
@@ -199,17 +195,14 @@ public class FTPClientWrapper {
         String realpath = getOnlyDirectory(path);
 
         String[] path_s = realpath.trim().split("/");
-        //System.out.println("Path: " + path);
         String initial = "/";
         for(String p: path_s){
             if (!p.isEmpty()){
-                //System.out.println("\tp: " + p);
                 initial = initial + p + "/";
-                //System.out.println("\tForcing creation of " + initial);
                 try{
                     this.createDirectory(initial);
                 }catch(Exception e){
-                    //System.out.println("Not creating");
+                    logger.warn("Not creating");
                 }
             }
         }
@@ -322,20 +315,15 @@ public class FTPClientWrapper {
         //String LOGIN_PASS_FTP_SERVER = "_FTP17820_Client"; /* i=13365*4/3 */
         String LOGIN_NAME_FTP_SERVER = "test";
         String LOGIN_PASS_FTP_SERVER = "test"; /* i=13365*4/3 */
-        System.out.println("create");
 
         FTPClientWrapper client = new FTPClientWrapper(URL_FTP_SERVER, LOGIN_NAME_FTP_SERVER, LOGIN_PASS_FTP_SERVER);
-        System.out.println("waiting");
 
         FTPFile[] res = client.list("/");
-        System.out.println("obtained");
         for(FTPFile i:res){
-            System.out.println("-\t" + i.getName());
+            logger.info("-\t" + i.getName());
         }
 
-        System.out.println("done list");
         client.disconnect();
-        System.out.println("done all");
     }
 
 
@@ -352,6 +340,5 @@ public class FTPClientWrapper {
         client.uploadFromStringWithTimeout("/test.txt", "Hello", 10*1000);
 
         client.disconnect();
-        System.out.println("done all");
     }
 }

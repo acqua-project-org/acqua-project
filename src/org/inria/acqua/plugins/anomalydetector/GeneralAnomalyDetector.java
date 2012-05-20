@@ -44,7 +44,7 @@ public class GeneralAnomalyDetector implements Pipelineable{
     }
 
     private void print(String pr){
-        System.out.println(pr);
+        logger.info(pr);
     }
 
     public void insertFlowElement(FlowElement fe, String signature) throws Exception {

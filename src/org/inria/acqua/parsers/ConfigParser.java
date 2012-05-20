@@ -391,9 +391,6 @@ public class ConfigParser extends Parser{
         String rl = b.getParent();
 
         ConfigParser cp = new ConfigParser("config.xml");
-        //System.out.println("ifeexper: " + cp.getLandmarksSerialized(cp.getLandmarks()));
-        //cp.setLandmarks(cp.getLandmarksFromText("10.10.10.10 12.12.12.12"));
-        //System.out.println("ifeexper: " + cp.getLandmarksSerialized(cp.getLandmarks()));
         //cp.writeFile();
         
     }
