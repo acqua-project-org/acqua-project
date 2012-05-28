@@ -34,7 +34,7 @@ public class JsonDumpeableFlowElement {
     public JsonDumpeableFlowElement(){}
     
     public JsonDumpeableFlowElement(FlowElement fe){
-        landmarks_list = (Landmark[])(al_2_ar((ArrayList<Landmark>)fe.get(PipDefs.FE_LANDMARKS_LIST)));
+        landmarks_list = (Landmark[])(Landmark.al_2_ar((ArrayList<Landmark>)fe.get(PipDefs.FE_LANDMARKS_LIST)));
         count = (Integer)fe.get(PipDefs.FE_COUNT);
         timeout_ms = (Integer)fe.get(PipDefs.FE_TIMEOUT_MS);
         packet_size = (Integer)fe.get(PipDefs.FE_PACKET_SIZE);
@@ -51,7 +51,7 @@ public class JsonDumpeableFlowElement {
 
     public FlowElement dumpToFlowElement(){
         FlowElement fe = new FlowElement();
-        fe.put(PipDefs.FE_LANDMARKS_LIST,this.ar_2_al(landmarks_list));
+        fe.put(PipDefs.FE_LANDMARKS_LIST,Landmark.ar_2_al(landmarks_list));
         fe.put(PipDefs.FE_COUNT,count);
         fe.put(PipDefs.FE_TIMEOUT_MS,timeout_ms);
         fe.put(PipDefs.FE_PACKET_SIZE,packet_size);
@@ -65,23 +65,6 @@ public class JsonDumpeableFlowElement {
         return fe;
     }
 
-    public Landmark[] al_2_ar(ArrayList<Landmark> arg){
-        Landmark[] arr = (Landmark[])new Landmark[arg.size()];
-        int i=0;
-        for(Landmark t: arg){
-            arr[i] = t;
-            i++;
-        }
-        return (Landmark[])arr;
-    }
-    public ArrayList<Landmark> ar_2_al(Landmark[] arg){
-        ArrayList<Landmark> ret = new ArrayList<Landmark>();
-
-        for(int i=0;i<arg.length;i++){
-            ret.add(arg[i]);
-        }
-        return ret;
-    }
    
     public static void main(String args[]) throws Exception{
     	

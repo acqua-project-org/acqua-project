@@ -1,13 +1,10 @@
 package org.inria.acqua.misc;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.inria.acqua.mjmisc.MiscIP;
-import org.inria.acqua.plugins.campaigngenerator.pingabstraction.Pinger;
-
 
 /**
  * @author mjost
@@ -117,5 +114,24 @@ public class Landmark {
     @Override
     public String toString(){
         return (int)ip[0] + "." + (int)ip[1] + "." + (int)ip[2] + "." + (int)ip[3];
+    }
+
+    public static Landmark[] al_2_ar(ArrayList<Landmark> arg){
+        Landmark[] arr = (Landmark[])new Landmark[arg.size()];
+        int i=0;
+        for(Landmark t: arg){
+            arr[i] = t;
+            i++;
+        }
+        return (Landmark[])arr;
+    }
+
+    public static ArrayList<Landmark> ar_2_al(Landmark[] arg){
+        ArrayList<Landmark> ret = new ArrayList<Landmark>();
+
+        for(int i=0;i<arg.length;i++){
+            ret.add(arg[i]);
+        }
+        return ret;
     }
 }

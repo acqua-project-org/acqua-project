@@ -4,15 +4,12 @@ import java.awt.*;
 import java.awt.event.*;
 import java.net.URL;
 import javax.swing.*;
-
 import org.inria.acqua.forms.labelnotification.LabelNotifierEmitter;
 import org.inria.acqua.forms.labelnotification.LabelNotifierReceptor;
 import org.inria.acqua.layers.*;
-import org.inria.acqua.parsers.ConfigParser;
-import org.inria.acqua.plugins.Pipeline;
+import org.inria.acqua.parsers.ConfigFileParser;
 import org.inria.acqua.plugins.PipelineCreator;
 import org.inria.acqua.plugins.anomalydetector.AnomalyDetector;
-
 import java.util.ArrayList;
 
 /** 
@@ -23,7 +20,7 @@ public class MainWindow extends javax.swing.JFrame {
     
     private ArrayList<Curve> curves;        /* Set of curves' objects in this frame. */
     private ExternalModule externalModule;  /* External module (it comunicates with IFE). */
-    private ConfigParser configParser;      /* Parser of the config.xml file. */
+    private ConfigFileParser configParser;      /* Parser of the config.xml file. */
     private LabelNotifierEmitter labelNotifierEmitter;
     private LabelNotifierReceptor labelNotifierReceptor; 
     
@@ -41,7 +38,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         labelNotifierEmitter = new LabelNotifierEmitter();
         try {
-            configParser = new ConfigParser(configFile);
+            configParser = ConfigFileParser.getConfigFileParser(configFile);
         } catch (Exception ex) {
             System.err.println("ERROR: Cannot process configuration file '" + configFile + "'.");
             ex.printStackTrace();
@@ -126,8 +123,7 @@ public class MainWindow extends javax.swing.JFrame {
             gbc.gridy=i+1;
         }
 
-        externalModule.initToolEnvironment(
-                configParser.getIFEPath());
+        externalModule.initToolEnvironment();
 
 
         this.getContentPane().setBackground(menu.getBackground());

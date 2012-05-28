@@ -9,7 +9,7 @@ import org.inria.acqua.exceptions.*;
 import org.inria.acqua.misc.Landmark;
 import org.inria.acqua.misc.Timestamp;
 import org.inria.acqua.mjmisc.Misc;
-import org.inria.acqua.parsers.ConfigParser;
+import org.inria.acqua.parsers.ConfigFileParser;
 import org.inria.acqua.plugins.FlowElement;
 import org.inria.acqua.plugins.PipDefs;
 import org.inria.acqua.plugins.Pipelineable;
@@ -28,9 +28,9 @@ public class InverseDumpReader implements Pipelineable{
     private ArrayList<FEReader> fereaders;
     private ArrayList<File> coveredLandmarks;
     private Landmark monitoredPoint;
-    private ConfigParser cp;
+    private ConfigFileParser cp;
 
-    public InverseDumpReader(String path, Landmark monitoredPoint, ConfigParser cp) throws Exception{
+    public InverseDumpReader(String path, Landmark monitoredPoint, ConfigFileParser cp) throws Exception{
         //this.dumpFilename = dumpFilename;
         this.sinks = new ArrayList<Pipelineable>();
         this.cp = cp;

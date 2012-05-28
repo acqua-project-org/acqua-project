@@ -1,8 +1,6 @@
 package org.inria.acqua.main;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
 import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -10,7 +8,7 @@ import org.inria.acqua.forms.ConfigurationWindow;
 import org.inria.acqua.layers.ExternalModule;
 import org.inria.acqua.misc.Landmark;
 import org.inria.acqua.mjmisc.MiscIP;
-import org.inria.acqua.parsers.ConfigParser;
+import org.inria.acqua.parsers.ConfigFileParser;
 import org.inria.acqua.planetlabpinger.PlanetlabPingerModule;
 import org.inria.acqua.plugins.PipelineCreator;
 import org.inria.acqua.plugins.campaigngenerator.InverseDumpReaderOnTheFly;
@@ -132,12 +130,12 @@ public class Main{
         if ((Boolean)parser.getOptionValue(pgraphical, false)){
             /* Run with graphical mode. */
             logger.info("Running graphical mode...");
-            ConfigurationWindow.execute(null);
+            ConfigurationWindow.execute(true, "config.xml");
             return;
         }else if ((Boolean)parser.getOptionValue(pmute, false)){
             /* Case when we let the tool running, only debugging. */
             logger.info("Running mute mode (only generating a pings' file)...");
-            ConfigParser cp = new ConfigParser(conffile);
+            ConfigFileParser cp = ConfigFileParser.getConfigFileParser(conffile);
             PipelineCreator pc = PipelineCreator.getMuteRunningPipeline(cp);
             ExternalModule ai = new ExternalModule(pc, cp, null, cp.getIFEExecutionPeriod());
             ai.runLoop();
@@ -146,7 +144,7 @@ public class Main{
             /* Case when we use as input an already existing file (captured before). */
             logger.info("Running mute mode with dump reading...");
             String filename = args[1];
-            ConfigParser cp = new ConfigParser(conffile);
+            ConfigFileParser cp = ConfigFileParser.getConfigFileParser(conffile);
             PipelineCreator pc = PipelineCreator.getPipelineProcessFileComplete(cp, filename);
             ExternalModule ai = new ExternalModule(pc, cp, null, cp.getIFEExecutionPeriod());
             ai.runLoop();
@@ -156,7 +154,7 @@ public class Main{
             logger.info("Using as monitored point '"+monitp+"'.");
             /* Case when we analyze the samples obtained from other points with inverse IFE. */
             logger.info("Running inverse mode...");
-            ConfigParser cp = new ConfigParser(conffile);
+            ConfigFileParser cp = ConfigFileParser.getConfigFileParser(conffile);
             PipelineCreator pc = PipelineCreator.getPipelineProcessInvertedFiles(
                     cp, args[1], /* D:\\PFE\\remote\\experimental\\measurements-stageII\\inverse */
                     new Landmark(MiscIP.solveName(monitp))); /* "213.186.117.56" */
@@ -175,7 +173,7 @@ public class Main{
         }else if ((Boolean)parser.getOptionValue(pgren, false)){
             /* Case when we read from stdin the pings, and we put in stdout the anomalies. */
             logger.info("Running in Grenouille mode...");
-            ConfigParser cp = new ConfigParser(conffile);
+            ConfigFileParser cp = ConfigFileParser.getConfigFileParser(conffile);
             PipelineCreator pc = PipelineCreator.getPipelineGrenouille(cp);
             ExternalModule ai = new ExternalModule(pc, cp, null, cp.getIFEExecutionPeriod());
             ai.runLoop();
@@ -192,7 +190,7 @@ public class Main{
 
             logger.info("Using as monitored point '" + monitp + "'.");
             
-            ConfigParser cp = new ConfigParser(conffile);
+            ConfigFileParser cp = ConfigFileParser.getConfigFileParser(conffile);
 
             PipelineCreator pc = PipelineCreator.getInverseOnTheFlyProcessingPipeline(
                     cp, 

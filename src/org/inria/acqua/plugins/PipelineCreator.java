@@ -19,7 +19,7 @@ import org.inria.acqua.misc.Landmark;
 import org.inria.acqua.mjmisc.Misc;
 import org.inria.acqua.mjmisc.MiscDate;
 import org.inria.acqua.mjmisc.MiscIP;
-import org.inria.acqua.parsers.ConfigParser;
+import org.inria.acqua.parsers.ConfigFileParser;
 import org.inria.acqua.plugins.anomalydetector.AnomalyDetectorBernoulli;
 import org.inria.acqua.plugins.anomalydetector.GeneralAnomalyDetector;
 import org.inria.acqua.plugins.campaigngenerator.CampaignDumpReader;
@@ -66,11 +66,11 @@ public class PipelineCreator {
     /**** APPLICATION ****/
     /*********************/
 
-    public static PipelineCreator getGUIPipeline(ConfigParser cp) throws Exception{
+    public static PipelineCreator getGUIPipeline(ConfigFileParser cp) throws Exception{
     
         /* Create pipeline passing cp, and obtaining historyData also fe standard */
 
-        ArrayList<String> landmarksStr = cp.getRawProvidedLandmarks();
+        ArrayList<String> landmarksStr = cp.getStrLandmarks();
         ArrayList<Landmark> landmarks = new ArrayList<Landmark>();
 
         for(String l:landmarksStr){
@@ -145,11 +145,11 @@ public class PipelineCreator {
     }
 
 
-    public static PipelineCreator getMuteRunningPipeline(ConfigParser cp) throws Exception{
+    public static PipelineCreator getMuteRunningPipeline(ConfigFileParser cp) throws Exception{
 
         /* Create pipeline passing cp, and obtaining historyData also fe standard */
 
-        ArrayList<String> landmarksStr = cp.getRawProvidedLandmarks();
+        ArrayList<String> landmarksStr = cp.getStrLandmarks();
         ArrayList<Landmark> landmarks = new ArrayList<Landmark>();
 
         checkParameters(landmarksStr);
@@ -233,11 +233,11 @@ public class PipelineCreator {
     /*********************/
 
     public static PipelineCreator getPipelineProcessFileLight(
-            ConfigParser cp, String directory, String prefix) throws Exception{
+            ConfigFileParser cp, String directory, String prefix) throws Exception{
 
         /* Create pipeline passing cp, and obtaining historyData also fe standard */
 
-        ArrayList<String> landmarksStr = cp.getRawProvidedLandmarks();
+        ArrayList<String> landmarksStr = cp.getStrLandmarks();
         ArrayList<Landmark> landmarks = new ArrayList<Landmark>();
 
         for(String l:landmarksStr){
@@ -322,7 +322,7 @@ public class PipelineCreator {
     /**********************************/
 
     public static PipelineCreator getPipelineGrenouille(
-            ConfigParser cp) throws Exception{
+            ConfigFileParser cp) throws Exception{
 
     	// Put in place the list of landmarks for which pings will be received. 
         ArrayList<Landmark> landmarks = new ArrayList<Landmark>();
@@ -390,7 +390,7 @@ public class PipelineCreator {
     /*********************/
 
     public static PipelineCreator getPipelineProcessFileComplete(
-            ConfigParser cp, String filename) throws Exception{
+            ConfigFileParser cp, String filename) throws Exception{
 
         /* Create pipeline passing cp, and obtaining historyData also fe standard */
 
@@ -477,7 +477,7 @@ public class PipelineCreator {
 
 
     public static PipelineCreator getPipelineProcessInvertedFiles(
-            ConfigParser cp, String directory, Landmark monitoredPoint) throws Exception{
+            ConfigFileParser cp, String directory, Landmark monitoredPoint) throws Exception{
 
         /* Create pipeline passing cp, and obtaining historyData also fe standard */
 
@@ -570,7 +570,7 @@ public class PipelineCreator {
     
 
     public static PipelineCreator getInverseOnTheFlyProcessingPipeline(
-            ConfigParser cp, String monitoredPoint, int inverseDumpReaderMode, String str_date) throws Exception{
+            ConfigFileParser cp, String monitoredPoint, int inverseDumpReaderMode, String str_date) throws Exception{
 
         /* Create pipeline passing cp, and obtaining historyData also fe standard */
 

@@ -27,19 +27,14 @@ EXECUTION FLAGS
 USAGE EXAMPLES
 
 # Normal IFE 
-$ acqua -m                                         # to generate ping's campaign file. 
-$ acqua -x <file_output.txt>                       # to read a ping's campaign file and generate IFE. 
+$ acqua -f <configfile> -m                                         # to generate ping's campaign file. 
+$ acqua -f <configfile>  -x <file_output.txt>                       # to read a ping's campaign file and generate IFE. 
 
 # Inverse IFE
-$ acqua -p                                         # to run in a Planetlab node as pinger (to later perform Inverse IFE).
-$ acqua -i <samples_dir> <target_landmark>         # to analyze IFE of a particular landmark using samples obtained from pingers (this is Inverse IFE).
+$ acqua -f <configfile>  -p                                         # to run in a Planetlab node as pinger (to later perform Inverse IFE).
+$ acqua -f <configfile>  -i <samples_dir> <target_landmark>         # to analyze IFE of a particular landmark using samples obtained from pingers (this is Inverse IFE).
 
 # Real time Inverse IFE 
-$ acqua -j sandun
-$ acqua -j papi 17/08/2011_16:47:00.000_GMT_+0000     (don't forget to modify planetlabanalyzer_config.txt) 
-
-
-
-
-
+$ acqua -f <configfile>  -j sandun
+$ acqua -f <configfile>  -j papi 17/08/2011_16:47:00.000_GMT_+0000     (don't forget to modify planetlabanalyzer_config.txt) 
 

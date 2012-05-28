@@ -15,13 +15,10 @@ import org.w3c.dom.Node;
  * It also can write this file.
  * @author mjost
  */
-public class ConfigParser extends Parser{
-	private static Logger logger = Logger.getLogger(ConfigParser.class.getName()); 
-    public static final String LANDMARKS_SEPARATOR = "\n";
+public class ConfigXMLParser extends ConfigFileParser{
+	private static Logger logger = Logger.getLogger(ConfigXMLParser.class.getName()); 
     /** Attributes that store the value of each field of the configuration file. */
-    public static ConfigParser instance = null;
-    public static final String DEFAULT_CONFIG_FILE_NAME = "config.xml";
-    public static final String EXPERIMENTS_CONFIG_FILE_NAME = "config-exp.xml";
+    public static ConfigXMLParser instance = null;
 
     public static final String DEFAULT_SESSION_FILE_NAME = "session.dat";
     
@@ -29,12 +26,8 @@ public class ConfigParser extends Parser{
 
     private static String xp_base = "/ACQUA_CONFIG_FILE/";
     private static String xp_ife_execution_period = xp_base + "ife_execution_period/@value";
-    private static String xp_ife_path_and_name  = xp_base + "ife_path_and_name";
     private static String xp_landmarks = xp_base + "landmarks";
     private static String xp_number_of_pings = xp_base + "number_of_pings/@value";
-    private static String xp_number_of_saved_entries_ife = xp_base + "number_of_saved_entries_ife/@value";
-    private static String xp_number_of_saved_entries_gui = xp_base + "number_of_saved_entries_gui/@value";
-    //private static String xp_significance_level = xp_base + "significance_level/@value";
     private static String xp_anom_detection_param1 = xp_base + "anomaly_detection_parameter1/@value";
     private static String xp_anom_detection_param2= xp_base + "anomaly_detection_parameter2/@value";
     private static String xp_anom_detection_param3= xp_base + "anomaly_detection_parameter3/@value";
@@ -44,7 +37,7 @@ public class ConfigParser extends Parser{
     private static String xp_session_filename = xp_base + "session_filename";
     private static String xp_number_of_loops = xp_base + "number_of_loops/@value";
 
-    public ConfigParser(String file) throws Exception{
+    public ConfigXMLParser(String file) throws Exception{
     	try{
 	        xmlParser = new XMLParser(file);
     	}catch(Exception e){
@@ -95,46 +88,6 @@ public class ConfigParser extends Parser{
         }catch(Exception e){e.printStackTrace();}
         return res;
     }
-
-    public void setIFEPathAndName(String x){
-        x = (new File(x)).getPath();
-        try{
-            xmlParser.queryOneAnswer(xp_ife_path_and_name).setTextContent(x);
-        }catch(Exception e){e.printStackTrace();}
-    }
-
-    public String getIFEPathAndName(){
-        String res = "";
-        try{
-            res = xmlParser.queryOneAnswer(xp_ife_path_and_name).getTextContent().trim();
-        }catch(Exception e){e.printStackTrace();}
-
-        if (res.trim().length()==0){
-            logger.info("Using default IFE tool (acqua in '.').");
-            return null; 
-        }else{
-            return (new File(res)).getPath();
-        }
-    }
-
-    public String getIFEPath(){
-        String pathandname = this.getIFEPathAndName();
-        return getOnlyPath(pathandname);
-        
-    }
-
-    public static String getOnlyPath(String file){
-        if (file!=null){
-            File aux = new File(file);
-            File aux2 = new File(aux.getAbsolutePath());
-            return aux2.getParent();
-        }else{
-            logger.info("Returning path by default ('.').");
-            return ".";
-        }
-    }
-
-
 
     public void setAnomalyDetectionParameter1(double x){
         try{xmlParser.queryOneAnswer(xp_anom_detection_param1).setNodeValue(String.valueOf(x));}catch(Exception e){e.printStackTrace();}
@@ -188,38 +141,6 @@ public class ConfigParser extends Parser{
     }
 
 
-
-
-
-    public void setNumberOfSavedEntriesGUI(int x){
-        try{
-            xmlParser.queryOneAnswer(xp_number_of_saved_entries_gui).setNodeValue(String.valueOf(x));
-        }catch(Exception e){e.printStackTrace();}
-    }
-
-    public int getNumberOfSavedEntriesGUI(){
-        int res = 50;
-        try{
-            res = Integer.parseInt(xmlParser.queryOneAnswer(xp_number_of_saved_entries_gui).getNodeValue());
-        }catch(Exception e){e.printStackTrace();}
-        return res;
-    }
-
-    public void setNumberOfSavedEntriesIFE(int x){
-        try{
-            xmlParser.queryOneAnswer(xp_number_of_saved_entries_ife).setNodeValue(String.valueOf(x));
-        }catch(Exception e){e.printStackTrace();}
-    }
-    public int getNumberOfSavedEntriesIFE(){
-        int res = 3;
-        try{
-            res = Integer.parseInt(xmlParser.queryOneAnswer(xp_number_of_saved_entries_ife).getNodeValue());
-        }catch(Exception e){e.printStackTrace();}
-        return res;
-    }
-
-
-
     public void setTimeoutSeconds(int x){
         try{
             xmlParser.queryOneAnswer(xp_timeout).setNodeValue(String.valueOf(x));
@@ -259,8 +180,8 @@ public class ConfigParser extends Parser{
     }
 
     /** Set the landmarks for the IFE tool. */
-    public void setRawProvidedLandmarks(ArrayList<String> x){
-        String landm = this.getRawProvidedLandmarksSerialized(x);
+    public void setStrLandmarks(ArrayList<String> x){
+        String landm = this.getStrLandmarksSerialized(x);
         try{
             xmlParser.queryOneAnswer(xp_landmarks).setTextContent(landm);
         }catch(Exception e){e.printStackTrace();}
@@ -268,19 +189,11 @@ public class ConfigParser extends Parser{
 
 
     /** Return the landmarks for the IFE tool. */
-    public ArrayList<Landmark> getLan1dmarks() throws Exception{
-        String res = null;
-        Node node = xmlParser.queryOneAnswer(xp_landmarks);
-        res = node.getTextContent().trim();        
-        return getLan1dmarksFromText(res);
-    }
-
-    /** Return the landmarks for the IFE tool. */
     public ArrayList<String> getRawProvidedLandmarks() throws Exception{
         String res = null;
         Node node = xmlParser.queryOneAnswer(xp_landmarks);
         res = node.getTextContent().trim();
-        return getRawProvidedLandmarksFromText(res);
+        return getStrLandmarksFromText(res);
     }
 
     /** Put a collection of landmarks in a serialized-space-separated string. */
@@ -295,7 +208,7 @@ public class ConfigParser extends Parser{
     }
 
     /** Put a collection of landmarks in a serialized-space-separated string. */
-    public String getRawProvidedLandmarksSerialized(ArrayList<String> landmarks){
+    public String getStrLandmarksSerialized(ArrayList<String> landmarks){
         String ret = "";
         Iterator<String> i = landmarks.iterator();
         boolean first = true;
@@ -324,27 +237,7 @@ public class ConfigParser extends Parser{
     }
 
     /** Gets landmarks from raw text to put them in a collection. */
-    public ArrayList<Landmark> getLan1dmarksFromText(String landmarksTemp) throws Exception{
-        int indice=0;
-        String oneM;
-        landmarksTemp = landmarksTemp.trim();
-        ArrayList<Landmark> lm = new ArrayList<Landmark>();
-        while (indice!=-1){
-            indice = landmarksTemp.indexOf(LANDMARKS_SEPARATOR);
-            if (indice!=-1){
-                oneM = landmarksTemp.substring(0,indice).trim();
-                landmarksTemp = landmarksTemp.substring(indice).trim();
-            }else{
-                oneM = landmarksTemp.trim();
-            }
-            lm.add(new Landmark(oneM));
-        }
-        return lm;
-
-    }
-
-    /** Gets landmarks from raw text to put them in a collection. */
-    public ArrayList<String> getRawProvidedLandmarksFromText(String landmarksTemp){
+    public ArrayList<String> getStrLandmarksFromText(String landmarksTemp){
         int indice=0, in1, in2, in3;
         String oneM;
         landmarksTemp = landmarksTemp.trim();
@@ -374,25 +267,17 @@ public class ConfigParser extends Parser{
 
     }
 
+    /** Return the landmarks for the IFE tool. */
+    public ArrayList<String> getStrLandmarks() throws Exception{
+        String res = null;
+        Node node = xmlParser.queryOneAnswer(xp_landmarks);
+        res = node.getTextContent().trim();
+        return getStrLandmarksFromText(res);
+    }
+
 
     /** Write the file with the given changes in the nodes. */
     public void writeFile(){
         xmlParser.writeXML();
-    }
-
-    /** Testing. */
-    public static void main(String[] args) throws Exception{
-        File a = new File("config.xml");
-        String r = a.getAbsolutePath();
-        File b = new File(r);
-
-        String s = b.getCanonicalPath();
-        String t = b.getPath();
-        String u = b.getName();
-        String rl = b.getParent();
-
-        ConfigParser cp = new ConfigParser("config.xml");
-        //cp.writeFile();
-        
     }
 }

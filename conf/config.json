@@ -1,0 +1,1 @@
+{"number_of_loops":0,"ife_execution_period":60000,"xp_anom_detection_param1":14.0,"xp_anom_detection_param2":0.3,"xp_anom_detection_param3":0.9,"xp_anom_detection_param4":5.0,"xp_anom_detection_param5":5.0,"number_of_pings":2,"timeout_seconds":3,"landmarks":[{"alias":"\u003cno alias\u003e","type":1,"ip":[192,168,0,1]},{"alias":"\u003cno alias\u003e","type":1,"ip":[192,168,0,2]}]}

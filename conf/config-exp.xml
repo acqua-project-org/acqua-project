@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><ACQUA_CONFIG_FILE>
-	<!-- Significance level of the Impact Factor Estimator to obtain. -->
-	<significance_level value="900"/>
-	<!-- Number of entries (history) the IFE tool will use to compute anomalies. -->
-	<number_of_saved_entries_ife value="5"/>
 	<!-- Timeout (in seconds) for the pings. -->
 	<timeout value="3"/>
 	<!-- Number of pings per campain (per landmark). -->
 	<number_of_pings value="3"/>
 	<!-- Landmarks to analyze. -->
 	<landmarks></landmarks>
-	<!-- Path and name of the IFE tool. -->
-	<ife_path_and_name/>
 	<!-- Period of campains (in milliseconds). -->
 	<ife_execution_period value="0"/> 
 	<!-- Amplitude of the anomaly (in milliseconds) to detect. -->
@@ -22,8 +16,6 @@
 	<!-- The other parameters are not being used currently bu AnomalyDetectionBernoulli. -->
 	<anomaly_detection_parameter4 value="5.0"/>
 	<anomaly_detection_parameter5 value="5.0"/>
-	<!-- Number of entries that will be saved in a session. -->
-	<number_of_saved_entries_gui value="100"/>
 	<!-- Invisible mode. -->
 	<!-- Number of campains to perform (only for invisible mode). -->
 	<number_of_loops value="2000"/>

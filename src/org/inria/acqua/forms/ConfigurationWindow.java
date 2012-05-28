@@ -16,7 +16,7 @@ import javax.swing.UIManager;
 import org.inria.acqua.forms.labelnotification.LabelNotifierEmitter;
 import org.inria.acqua.forms.labelnotification.LabelNotifierReceptor;
 import org.inria.acqua.mjmisc.Misc;
-import org.inria.acqua.parsers.ConfigParser;
+import org.inria.acqua.parsers.ConfigFileParser;
 import org.inria.acqua.plugins.campaigngenerator.pingabstraction.Pinger;
 
 /**
@@ -29,7 +29,7 @@ public class ConfigurationWindow extends javax.swing.JFrame {
     private static final int TAB_CASE3 = 2;
     private static final int TAB_CASEMANUAL = 3;
     private static boolean visibleMode = true;
-    private ConfigParser configParser;
+    private ConfigFileParser configParser;
     private LabelNotifierEmitter labelNotifierEmitter;
     private LabelNotifierReceptor labelNotifierReceptor;
 
@@ -54,19 +54,25 @@ public class ConfigurationWindow extends javax.swing.JFrame {
     /** Singleton stuff. */
     public static ConfigurationWindow getConfigurationWindow(){
         if (instance==null){
-            instance = new ConfigurationWindow();
+            instance = new ConfigurationWindow(null);
+        }
+        return instance; 
+    }
+
+    /** Singleton stuff. */
+    public static ConfigurationWindow getConfigurationWindow(String filename){
+        if (instance==null){
+            instance = new ConfigurationWindow(filename);
         }
         return instance; 
     }
 
     /** Creates new form ConfigurationWindow */
-    private ConfigurationWindow() {
-
-        
+    private ConfigurationWindow(String filename) {
         try{
-            this.configParser = new ConfigParser(ConfigParser.DEFAULT_CONFIG_FILE_NAME);
+            this.configParser = ConfigFileParser.getConfigFileParser(filename);
         }catch(Exception e){
-            System.err.println("ERROR: Configuration file XML is not valid or is not present.");
+            System.err.println("ERROR, configuration file XML is not valid or is not present (" + filename + ").");
             e.printStackTrace();
             System.exit(-1);
         }
@@ -88,7 +94,7 @@ public class ConfigurationWindow extends javax.swing.JFrame {
              height-this.getSize().height)/2);
         }else{
             /* Go directly. */
-            new MainWindow(ConfigParser.DEFAULT_CONFIG_FILE_NAME, false);
+            new MainWindow(filename, false);
         }
         this.setVisible(visibleMode);
     }
@@ -461,22 +467,15 @@ public class ConfigurationWindow extends javax.swing.JFrame {
 
     /** Get configuration file's info and update the GUI fields. */
     private void getInfoFromFileAndUpdateWindow(){
-        ConfigParser cp = this.configParser;
+        ConfigFileParser cp = this.configParser;
         try{
 //            this.signLevelSpin.setModel(
 //                    new SpinnerNumberModel(
 //                        Integer.valueOf(cp.getSignificanceLevel()).intValue(), 0, 1000, 1));
 
-            this.numberOfSavedEntriesSpin.setModel(
-                    new SpinnerNumberModel(
-                        Integer.valueOf(cp.getNumberOfSavedEntriesIFE()).intValue(), 0, 100000, 1)
-                    );
+            //this.numberOfSavedEntriesSpin.setModel( new SpinnerNumberModel( Integer.valueOf(cp.getNumberOfSavedEntriesIFE()).intValue(), 0, 100000, 1) );
 
-            this.numberOfSavedEntriesGUISpin.setModel(
-                    new SpinnerNumberModel(
-                        Integer.valueOf(cp.getNumberOfSavedEntriesGUI()).intValue(), 0, 100000, 1)
-                    );
-
+            //this.numberOfSavedEntriesGUISpin.setModel( new SpinnerNumberModel( Integer.valueOf(cp.getNumberOfSavedEntriesGUI()).intValue(), 0, 100000, 1) ); 
 
             this.timeoutSpin.setModel(
                         new SpinnerNumberModel(
@@ -495,8 +494,7 @@ public class ConfigurationWindow extends javax.swing.JFrame {
                             Integer.valueOf(cp.getIFEExecutionPeriod()).intValue(), 0, 600000, 1)
                         );
 
-            this.landmarksText.setText(cp.getRawProvidedLandmarksSerialized(cp.getRawProvidedLandmarks()));
-            this.ifePathText.setText(cp.getIFEPathAndName());
+            this.landmarksText.setText(cp.getStrLandmarksSerialized(cp.getStrLandmarks()));
         }catch(Exception e){
             System.err.println("Some of the values of configuration file are not valid.");
             e.printStackTrace();
@@ -505,17 +503,16 @@ public class ConfigurationWindow extends javax.swing.JFrame {
 
     /** Get windows' fields' info and write it in the file. */
     private void takeInfoFromWindowAndWriteFile() throws Exception{
-        ConfigParser cp = this.configParser;
+        ConfigFileParser cp = this.configParser;
         //cp.setSignificanceLevel(((Integer)this.signLevelSpin.getValue()).intValue());
-        cp.setNumberOfSavedEntriesIFE((Integer)this.numberOfSavedEntriesSpin.getValue());
+        //cp.setNumberOfSavedEntriesIFE((Integer)this.numberOfSavedEntriesSpin.getValue());
         cp.setTimeoutSeconds((Integer)this.timeoutSpin.getValue());
         cp.setNumberOfPings((Integer)this.numberOfPingsSpin.getValue());
         
         cp.setIFEExecutionPeriod((Integer)this.ifeExecutionPeriodSpin.getValue());
         String text = this.landmarksText.getText();
-        cp.setRawProvidedLandmarks(cp.getRawProvidedLandmarksFromText(text));
-        cp.setIFEPathAndName(this.ifePathText.getText());
-        cp.setNumberOfSavedEntriesGUI((Integer)this.numberOfSavedEntriesGUISpin.getValue());
+        cp.setStrLandmarks(cp.getStrLandmarksFromText(text));
+        //cp.setNumberOfSavedEntriesGUI((Integer)this.numberOfSavedEntriesGUISpin.getValue());
         cp.writeFile();
         this.getInfoFromFileAndUpdateWindow();
     }
@@ -588,7 +585,7 @@ public class ConfigurationWindow extends javax.swing.JFrame {
         }
 
         ArrayList<String> landm =
-                this.configParser.getRawProvidedLandmarksFromText(this.landmarksText.getText());
+                this.configParser.getStrLandmarksFromText(this.landmarksText.getText());
 
         String rep;
         if((rep = Misc.areThereEqualElements(landm))!=null){
@@ -624,19 +621,14 @@ public class ConfigurationWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_browseIFEButtonActionPerformed
 
-    public static void execute(String args) {
-        boolean visible = true;
-        
-        if (args!=null && args.equals("-i")){
-            visible = false;
-        }
+    public static void execute(boolean visible, final String configfilename) {
         System.setProperty("java.awt.headless", "true");
         
         ConfigurationWindow.setVisibleMode(visible);
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ConfigurationWindow();
+                new ConfigurationWindow(configfilename);
             }
         });
     }

@@ -9,14 +9,12 @@ import org.inria.acqua.forms.labelnotification.LabelNotifierEmitter;
 import org.inria.acqua.forms.labelnotification.LabelNotifierReceptor;
 import org.inria.acqua.misc.*;
 import org.inria.acqua.mjmisc.Misc;
-import org.inria.acqua.parsers.ConfigParser;
+import org.inria.acqua.parsers.ConfigFileParser;
 import org.inria.acqua.plugins.*;
 import org.inria.acqua.plugins.ifecontroller.IFController;
 import org.inria.acqua.plugins.ifestimator.IFEstimatorToCurveElement;
 import org.inria.acqua.realtimer.RealtimeNotifiable;
 import org.inria.acqua.realtimer.RealtimeTask;
-
-
 
 /**
  * This class connects all the components of the system (including the pipeline)
@@ -38,12 +36,12 @@ public class ExternalModule implements Pipelineable, RealtimeNotifiable{
     private HistoryData historyData;
     private Integer rangeX1 = 0;
     private Integer rangeX2 = 100;
-    private ConfigParser cp;
+    private ConfigFileParser cp;
     private Pipeline pipeline;
     private FlowElement inputFlowElement;
     private long counter = 0;
 
-    public ExternalModule(PipelineCreator pc, ConfigParser cpar, LabelNotifierReceptor lab, int campaign_period_ms) throws Exception{
+    public ExternalModule(PipelineCreator pc, ConfigFileParser cpar, LabelNotifierReceptor lab, int campaign_period_ms) throws Exception{
 
         this.labelNotifierEmitter = new LabelNotifierEmitter();
 
@@ -256,9 +254,9 @@ public class ExternalModule implements Pipelineable, RealtimeNotifiable{
     }
 
     /** Initializes the tool environment, by deleting some files that must be deleted every new session. */
-    public void initToolEnvironment(String tool_path){
+    public void initToolEnvironment(){
         try{
-            Misc.deleteFilesFrom("log", tool_path);
+            Misc.deleteFilesFrom("log", ".");
         }catch(Exception e){
             logger.warn("Cannot prepare environment for the tool: " + e.getMessage());
             System.exit(-1);
